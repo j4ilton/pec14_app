@@ -13,8 +13,34 @@ class _CalculadoraViewState extends State<CalculadoraView> {
   String _sexo = 'F';
   final _idadeCtrl = TextEditingController();
   final _tempoFuncaoCtrl = TextEditingController();
+  final _tempoOutrasFuncoesCtrl = TextEditingController();
   final _tempoContribCtrl = TextEditingController();
   Map<String, dynamic>? _resultados;
+
+  @override
+  void initState() {
+    super.initState();
+    _tempoFuncaoCtrl.addListener(_atualizarTempoTotal);
+    _tempoOutrasFuncoesCtrl.addListener(_atualizarTempoTotal);
+  }
+
+  @override
+  void dispose() {
+    _tempoFuncaoCtrl.removeListener(_atualizarTempoTotal);
+    _tempoOutrasFuncoesCtrl.removeListener(_atualizarTempoTotal);
+    _idadeCtrl.dispose();
+    _tempoFuncaoCtrl.dispose();
+    _tempoOutrasFuncoesCtrl.dispose();
+    _tempoContribCtrl.dispose();
+    super.dispose();
+  }
+
+  void _atualizarTempoTotal() {
+    final tempoFuncao = int.tryParse(_tempoFuncaoCtrl.text) ?? 0;
+    final tempoOutras = int.tryParse(_tempoOutrasFuncoesCtrl.text) ?? 0;
+    final total = tempoFuncao + tempoOutras;
+    _tempoContribCtrl.text = total > 0 ? total.toString() : '';
+  }
 
   void _calcular() {
     setState(() {
@@ -58,11 +84,19 @@ class _CalculadoraViewState extends State<CalculadoraView> {
               keyboardType: TextInputType.number,
             ),
             TextField(
+              controller: _tempoOutrasFuncoesCtrl,
+              decoration: const InputDecoration(
+                labelText: 'Tempo em Outras Funções (anos)',
+              ),
+              keyboardType: TextInputType.number,
+            ),
+            TextField(
               controller: _tempoContribCtrl,
               decoration: const InputDecoration(
                 labelText: 'Tempo Total de Contribuição (anos)',
               ),
               keyboardType: TextInputType.number,
+              enabled: false,
             ),
             const SizedBox(height: 20),
             ElevatedButton(
