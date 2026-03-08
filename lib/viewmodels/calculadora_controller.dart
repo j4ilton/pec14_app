@@ -36,8 +36,9 @@ class CalculadoraController {
 
     if (tempoFuncao >= 25) {
       bonusAplicado = tempoFuncao - 25;
-      if (bonusAplicado > 5)
+      if (bonusAplicado > 5) {
         bonusAplicado = 5; // Trava o limite de bónus em 5 anos
+      }
 
       idadeNecessariaR2 -= bonusAplicado;
       regra2Apto = (idade >= idadeNecessariaR2);

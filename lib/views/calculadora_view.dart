@@ -5,7 +5,7 @@ class CalculadoraView extends StatefulWidget {
   const CalculadoraView({super.key});
 
   @override
-  _CalculadoraViewState createState() => _CalculadoraViewState();
+  State<CalculadoraView> createState() => _CalculadoraViewState();
 }
 
 class _CalculadoraViewState extends State<CalculadoraView> {

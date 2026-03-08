@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class QuizView extends StatefulWidget {
-  const QuizView({Key? key}) : super(key: key);
+  const QuizView({super.key});
 
   @override
-  _QuizViewState createState() => _QuizViewState();
+  State<QuizView> createState() => _QuizViewState();
 }
 
 class _QuizViewState extends State<QuizView> {
@@ -484,7 +484,7 @@ class _QuizViewState extends State<QuizView> {
                   ),
                 ),
               );
-            }).toList(),
+            }),
             if (_respondido) ...[
               const SizedBox(height: 10),
               Card(
