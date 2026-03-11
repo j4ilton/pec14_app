@@ -4,12 +4,14 @@ class ResultadoCard extends StatelessWidget {
   final String titulo;
   final bool isApto;
   final String detalhe;
+  final int tempoRestante;
 
   const ResultadoCard({
     super.key,
     required this.titulo,
     required this.isApto,
     required this.detalhe,
+    this.tempoRestante = 0,
   });
 
   @override
@@ -39,7 +41,23 @@ class ResultadoCard extends StatelessWidget {
           ),
           subtitle: Padding(
             padding: const EdgeInsets.only(top: 8.0),
-            child: Text(detalhe, style: const TextStyle(fontSize: 14)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(detalhe, style: const TextStyle(fontSize: 14)),
+                if (!isApto && tempoRestante > 0) ...[
+                  const SizedBox(height: 6),
+                  Text(
+                    'Faltam $tempoRestante ano(s)',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.orange.shade800,
+                    ),
+                  ),
+                ],
+              ],
+            ),
           ),
           trailing: Text(
             isApto ? 'APTO' : 'INAPTO',
