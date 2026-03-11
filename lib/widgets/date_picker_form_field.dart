@@ -36,7 +36,11 @@ class DatePickerFormField extends StatelessWidget {
                     onPressed: onClear,
                     tooltip: 'Limpar data',
                   ),
-                Icon(icon),
+                IconButton(
+                  icon: Semantics(label: labelText, child: Icon(icon)),
+                  onPressed: onTap,
+                  tooltip: labelText,
+                ),
               ],
             ),
           ),

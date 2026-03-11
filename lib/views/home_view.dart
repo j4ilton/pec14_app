@@ -7,7 +7,7 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Bem-vindo - PEC 14/21'),
+        title: const Text('Bem-vindo - PEC 14'),
         centerTitle: true,
       ),
       body: Center(
@@ -18,7 +18,7 @@ class HomeView extends StatelessWidget {
             children: [
               Icon(
                 Icons.health_and_safety,
-                size: 100,
+                size: 200,
                 color: Colors.green[700],
               ),
               const SizedBox(height: 20),
@@ -31,7 +31,7 @@ class HomeView extends StatelessWidget {
               ElevatedButton.icon(
                 onPressed: () => Navigator.pushNamed(context, '/quiz'),
                 icon: const Icon(Icons.menu_book),
-                label: const Text('Quiz PEC 14/21'),
+                label: const Text('Quiz PEC 14'),
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(double.infinity, 60),
                   textStyle: const TextStyle(fontSize: 18),
@@ -44,6 +44,7 @@ class HomeView extends StatelessWidget {
                 label: const Text('Calculadora de Aposentadoria'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.orange[600],
+                  foregroundColor: Colors.white,
                   minimumSize: const Size(double.infinity, 60),
                   textStyle: const TextStyle(fontSize: 18),
                 ),
