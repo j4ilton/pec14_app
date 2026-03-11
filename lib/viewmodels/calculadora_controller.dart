@@ -1,10 +1,21 @@
+class CalculadoraInput {
+  final String sexo;
+  final int idade;
+  final int tempoFuncao;
+  final int tempoOutrasFuncoes;
+  final int tempoContribuicao;
+
+  CalculadoraInput({
+    required this.sexo,
+    required this.idade,
+    required this.tempoFuncao,
+    required this.tempoOutrasFuncoes,
+    required this.tempoContribuicao,
+  });
+}
+
 class CalculadoraController {
-  Map<String, dynamic> calcularRegras({
-    required String sexo,
-    required int idade,
-    required int tempoFuncao,
-    required int tempoContribuicao,
-  }) {
+  Map<String, dynamic> calcularRegras(CalculadoraInput input) {
     // 1. Obter o ano atual dinamicamente
     int anoAtual = DateTime.now().year;
 
@@ -14,17 +25,18 @@ class CalculadoraController {
     int idadeMinimaR1 = 0;
 
     if (anoAtual <= 2030) {
-      idadeMinimaR1 = sexo == 'F' ? 50 : 52;
+      idadeMinimaR1 = input.sexo == 'F' ? 50 : 52;
     } else if (anoAtual <= 2035) {
-      idadeMinimaR1 = sexo == 'F' ? 52 : 54;
+      idadeMinimaR1 = input.sexo == 'F' ? 52 : 54;
     } else if (anoAtual <= 2040) {
-      idadeMinimaR1 = sexo == 'F' ? 54 : 56;
+      idadeMinimaR1 = input.sexo == 'F' ? 54 : 56;
     } else {
       // 2041 em diante
-      idadeMinimaR1 = sexo == 'F' ? 57 : 60;
+      idadeMinimaR1 = input.sexo == 'F' ? 57 : 60;
     }
 
-    bool regra1Apto = (tempoFuncao >= 25) && (idade >= idadeMinimaR1);
+    bool regra1Apto =
+        (input.tempoFuncao >= 25) && (input.idade >= idadeMinimaR1);
 
     // ---------------------------------------------------------
     // REGRA 2: Redução de Idade com Mais Tempo de Serviço
@@ -34,27 +46,27 @@ class CalculadoraController {
     int idadeNecessariaR2 = idadeMinimaR1;
     int bonusAplicado = 0;
 
-    if (tempoFuncao >= 25) {
-      bonusAplicado = tempoFuncao - 25;
+    if (input.tempoFuncao >= 25) {
+      bonusAplicado = input.tempoFuncao - 25;
       if (bonusAplicado > 5) {
         bonusAplicado = 5; // Trava o limite de bónus em 5 anos
       }
 
       idadeNecessariaR2 -= bonusAplicado;
-      regra2Apto = (idade >= idadeNecessariaR2);
+      regra2Apto = (input.idade >= idadeNecessariaR2);
     }
 
     // ---------------------------------------------------------
     // REGRA 3: Sistema de Pontos
     // ---------------------------------------------------------
-    int idadeMinimaR3 = sexo == 'F' ? 60 : 63;
-    int pontosNecessarios = sexo == 'F' ? 83 : 86;
-    int pontosAtuais = idade + tempoContribuicao;
+    int idadeMinimaR3 = input.sexo == 'F' ? 60 : 63;
+    int pontosNecessarios = input.sexo == 'F' ? 83 : 86;
+    int pontosAtuais = input.idade + input.tempoContribuicao;
 
     bool regra3Apto =
-        (tempoFuncao >= 10) &&
-        (tempoContribuicao >= 15) &&
-        (idade >= idadeMinimaR3) &&
+        (input.tempoFuncao >= 10) &&
+        (input.tempoContribuicao >= 15) &&
+        (input.idade >= idadeMinimaR3) &&
         (pontosAtuais >= pontosNecessarios);
 
     // ---------------------------------------------------------
