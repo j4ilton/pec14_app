@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import '../viewmodels/calculadora_controller.dart';
 
 class ResultadoCard extends StatelessWidget {
   final String titulo;
   final bool isApto;
   final String detalhe;
-  final int tempoRestante;
+  final TempoRestante tempoRestante;
 
   const ResultadoCard({
     super.key,
     required this.titulo,
     required this.isApto,
     required this.detalhe,
-    this.tempoRestante = 0,
+    this.tempoRestante = const TempoRestante(0, 0, 0),
   });
 
   @override
@@ -45,10 +46,10 @@ class ResultadoCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(detalhe, style: const TextStyle(fontSize: 14)),
-                if (!isApto && tempoRestante > 0) ...[
+                if (!isApto && !tempoRestante.isZero) ...[
                   const SizedBox(height: 6),
                   Text(
-                    'Faltam $tempoRestante ano(s)',
+                    'Faltam ${tempoRestante.formatar()}',
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,

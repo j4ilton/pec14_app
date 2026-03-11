@@ -145,6 +145,8 @@ class _CalculadoraViewState extends State<CalculadoraView> {
           tempoFuncao: int.tryParse(_tempoFuncaoCtrl.text) ?? 0,
           tempoOutrasFuncoes: int.tryParse(_tempoOutrasFuncoesCtrl.text) ?? 0,
           tempoContribuicao: int.tryParse(_tempoContribCtrl.text) ?? 0,
+          dataNascimento: _dataNascimento!,
+          dataAdmissao: _dataAdmissao!,
         );
 
         _resultados = _controller.calcularRegras(input);
