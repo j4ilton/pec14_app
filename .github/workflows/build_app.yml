@@ -1,0 +1,44 @@
+name: Compilar e Organizar Flutter
+
+# 1. Quando essa automação vai rodar?
+# Neste caso, toda vez que você fizer um push na branch "main"
+on:
+  push:
+    branches:
+      - main
+
+# 2. O que ela vai fazer?
+jobs:
+  build-android:
+    name: Build Android (APK & AAB)
+    # Usa um servidor Linux do GitHub (gratuito e rápido)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Baixar o código do repositório
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Configurar o Flutter no servidor
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: 📦 Instalar dependências
+        run: flutter pub get
+
+      - name: 🤖 Construir APK
+        run: flutter build apk --release
+
+      - name: 🤖 Construir AAB (App Bundle)
+        run: flutter build appbundle --release
+
+      # Aqui está a mágica! O servidor roda o script que criamos
+      - name: 🔄 Executar script de renomeação
+        run: dart run rename_builds.dart
+
+      - name: ☁️ Salvar arquivos gerados (Upload)
+        uses: actions/upload-artifact@v4
+        with:
+          name: Meus-Apps-Renomeados
+          # Pega a pasta inteira que o nosso script gerou
+          path: releases_finais/
