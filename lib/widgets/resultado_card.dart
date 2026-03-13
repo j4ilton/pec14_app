@@ -6,6 +6,8 @@ class ResultadoCard extends StatelessWidget {
   final bool isApto;
   final String detalhe;
   final TempoRestante tempoRestante;
+  final DateTime? dataElegibilidade;
+  final int? idadeEstimada;
 
   const ResultadoCard({
     super.key,
@@ -13,7 +15,15 @@ class ResultadoCard extends StatelessWidget {
     required this.isApto,
     required this.detalhe,
     this.tempoRestante = const TempoRestante(0, 0, 0),
+    this.dataElegibilidade,
+    this.idadeEstimada,
   });
+
+  String _formatarData(DateTime data) {
+    return '${data.day.toString().padLeft(2, '0')}/'
+        '${data.month.toString().padLeft(2, '0')}/'
+        '${data.year}';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +64,26 @@ class ResultadoCard extends StatelessWidget {
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                       color: Colors.orange.shade800,
+                    ),
+                  ),
+                ],
+                if (!isApto && dataElegibilidade != null) ...[
+                  const SizedBox(height: 4),
+                  Text(
+                    'Data estimada de elegibilidade: ${_formatarData(dataElegibilidade!)}',
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: Colors.blueGrey.shade700,
+                    ),
+                  ),
+                ],
+                if (!isApto && idadeEstimada != null) ...[
+                  const SizedBox(height: 2),
+                  Text(
+                    'Idade estimada na elegibilidade: $idadeEstimada anos',
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: Colors.blueGrey.shade700,
                     ),
                   ),
                 ],

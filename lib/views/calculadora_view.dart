@@ -309,18 +309,27 @@ class _CalculadoraViewState extends State<CalculadoraView> {
                   isApto: _resultados!['regra1']['apto'],
                   detalhe: _resultados!['regra1']['detalhe'],
                   tempoRestante: _resultados!['regra1']['tempoRestante'],
+                  dataElegibilidade:
+                      _resultados!['regra1']['dataElegibilidade'],
+                  idadeEstimada: _resultados!['regra1']['idadeEstimada'],
                 ),
                 ResultadoCard(
                   titulo: 'Regra 2: Redução de Idade',
                   isApto: _resultados!['regra2']['apto'],
                   detalhe: _resultados!['regra2']['detalhe'],
                   tempoRestante: _resultados!['regra2']['tempoRestante'],
+                  dataElegibilidade:
+                      _resultados!['regra2']['dataElegibilidade'],
+                  idadeEstimada: _resultados!['regra2']['idadeEstimada'],
                 ),
                 ResultadoCard(
                   titulo: 'Regra 3: Sistema de Pontos',
                   isApto: _resultados!['regra3']['apto'],
                   detalhe: _resultados!['regra3']['detalhe'],
                   tempoRestante: _resultados!['regra3']['tempoRestante'],
+                  dataElegibilidade:
+                      _resultados!['regra3']['dataElegibilidade'],
+                  idadeEstimada: _resultados!['regra3']['idadeEstimada'],
                 ),
               ],
             ],

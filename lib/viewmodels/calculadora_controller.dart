@@ -217,6 +217,32 @@ class CalculadoraController {
         : _calcularDiff(hoje, _eligibilityR3(hoje, input));
 
     // ---------------------------------------------------------
+    // DATAS DE ELEGIBILIDADE (projeção futura por regra)
+    // ---------------------------------------------------------
+    final DateTime? dataElegibilidadeR1 = regra1Apto
+        ? null
+        : _eligibilityR1(hoje, input);
+    final DateTime? dataElegibilidadeR2 = regra2Apto
+        ? null
+        : _eligibilityR2(hoje, input);
+    final DateTime? dataElegibilidadeR3 = regra3Apto
+        ? null
+        : _eligibilityR3(hoje, input);
+
+    // ---------------------------------------------------------
+    // IDADES ESTIMADAS NA DATA DE ELEGIBILIDADE
+    // ---------------------------------------------------------
+    final int idadeEstimadaR1 = regra1Apto
+        ? input.idade
+        : _ageAt(input.dataNascimento, dataElegibilidadeR1!);
+    final int idadeEstimadaR2 = regra2Apto
+        ? input.idade
+        : _ageAt(input.dataNascimento, dataElegibilidadeR2!);
+    final int idadeEstimadaR3 = regra3Apto
+        ? input.idade
+        : _ageAt(input.dataNascimento, dataElegibilidadeR3!);
+
+    // ---------------------------------------------------------
     // RETORNO DOS RESULTADOS PARA A INTERFACE
     // ---------------------------------------------------------
     return {
@@ -225,6 +251,8 @@ class CalculadoraController {
         'detalhe':
             'Ano: $anoAtual. Exige 25 anos na função e idade mínima de $idadeMinimaR1 anos.',
         'tempoRestante': tempoRestanteR1,
+        'dataElegibilidade': dataElegibilidadeR1,
+        'idadeEstimada': idadeEstimadaR1,
       },
       'regra2': {
         'apto': regra2Apto,
@@ -232,12 +260,16 @@ class CalculadoraController {
             ? 'Bónus de $bonusAplicado ano(s) aplicado. Idade mínima exigida cai para $idadeNecessariaR2 anos.'
             : 'Requer mais de 25 anos de função para obter bónus de redução de idade.',
         'tempoRestante': tempoRestanteR2,
+        'dataElegibilidade': dataElegibilidadeR2,
+        'idadeEstimada': idadeEstimadaR2,
       },
       'regra3': {
         'apto': regra3Apto,
         'detalhe':
             'Exige $pontosNecessarios pontos e idade mínima de $idadeMinimaR3 anos. Pontuação atual: $pontosAtuais.',
         'tempoRestante': tempoRestanteR3,
+        'dataElegibilidade': dataElegibilidadeR3,
+        'idadeEstimada': idadeEstimadaR3,
       },
     };
   }
