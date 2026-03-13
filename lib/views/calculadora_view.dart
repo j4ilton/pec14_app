@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../utils/responsive.dart';
 import '../viewmodels/calculadora_controller.dart';
 import '../widgets/date_picker_form_field.dart';
 import '../widgets/resultado_card.dart';
@@ -167,7 +168,7 @@ class _CalculadoraViewState extends State<CalculadoraView> {
     return Scaffold(
       appBar: AppBar(title: const Text('Calculadora PEC 14/21')),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(context.rspSpacing(16)),
         child: Form(
           key: _formKey,
           autovalidateMode: AutovalidateMode.onUnfocus,
@@ -207,11 +208,12 @@ class _CalculadoraViewState extends State<CalculadoraView> {
               const SizedBox(height: 20),
 
               const Divider(),
-              const Text(
+              Text(
                 'Dados Calculados Automaticamente:',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.grey,
+                  fontSize: context.rsp(13),
                 ),
               ),
               const SizedBox(height: 10),
@@ -240,11 +242,12 @@ class _CalculadoraViewState extends State<CalculadoraView> {
 
               const Divider(),
 
-              const Text(
+              Text(
                 'Dados a Preencher Manualmente:',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.grey,
+                  fontSize: context.rsp(13),
                 ),
               ),
               const SizedBox(height: 10),
@@ -284,24 +287,25 @@ class _CalculadoraViewState extends State<CalculadoraView> {
               ElevatedButton(
                 onPressed: _calcular,
                 style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(double.infinity, 50),
+                  minimumSize: const Size(double.infinity, 52),
                   backgroundColor: Colors.green.shade700,
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
+                  textStyle: TextStyle(fontSize: context.rsp(16)),
                 ),
-                child: const Text(
-                  'Verificar Status de Aposentadoria',
-                  style: TextStyle(fontSize: 16),
-                ),
+                child: const Text('Verificar Status de Aposentadoria'),
               ),
 
               if (_resultados != null) ...[
                 const SizedBox(height: 30),
-                const Text(
+                Text(
                   'RESULTADOS:',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: context.rsp(18),
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(height: 10),
                 ResultadoCard(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../utils/responsive.dart';
 import '../viewmodels/calculadora_controller.dart';
 
 class ResultadoCard extends StatelessWidget {
@@ -44,24 +45,27 @@ class ResultadoCard extends StatelessWidget {
           leading: Icon(
             isApto ? Icons.check_circle : Icons.cancel,
             color: isApto ? Colors.green.shade700 : Colors.red.shade700,
-            size: 36,
+            size: context.rspIcon(36),
           ),
           title: Text(
             titulo,
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: context.rsp(16),
+            ),
           ),
           subtitle: Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(detalhe, style: const TextStyle(fontSize: 14)),
+                Text(detalhe, style: TextStyle(fontSize: context.rsp(14))),
                 if (!isApto && !tempoRestante.isZero) ...[
                   const SizedBox(height: 6),
                   Text(
                     'Faltam ${tempoRestante.formatar()}',
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: context.rsp(14),
                       fontWeight: FontWeight.bold,
                       color: Colors.orange.shade800,
                     ),
@@ -72,7 +76,7 @@ class ResultadoCard extends StatelessWidget {
                   Text(
                     'Data estimada de elegibilidade: ${_formatarData(dataElegibilidade!)}',
                     style: TextStyle(
-                      fontSize: 13,
+                      fontSize: context.rsp(13),
                       color: Colors.blueGrey.shade700,
                     ),
                   ),
@@ -82,7 +86,7 @@ class ResultadoCard extends StatelessWidget {
                   Text(
                     'Idade estimada na elegibilidade: $idadeEstimada anos',
                     style: TextStyle(
-                      fontSize: 13,
+                      fontSize: context.rsp(13),
                       color: Colors.blueGrey.shade700,
                     ),
                   ),
@@ -95,7 +99,7 @@ class ResultadoCard extends StatelessWidget {
             style: TextStyle(
               fontWeight: FontWeight.bold,
               color: isApto ? Colors.green.shade800 : Colors.red.shade800,
-              fontSize: 16,
+              fontSize: context.rsp(14),
             ),
           ),
         ),
