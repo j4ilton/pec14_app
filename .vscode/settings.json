@@ -1,0 +1,13 @@
+{
+    "cmake.sourceDirectory": "${workspaceFolder}/windows",
+    "files.associations": {
+        "**/.dart_tool/version": "plaintext"
+    },
+    "C_Cpp.files.exclude": {
+        "**/.dart_tool/**": true,
+        "**/windows/flutter/**": true
+    },
+    "http.trustedDomains": [
+        "https://static.ampcode.com"
+    ]
+}

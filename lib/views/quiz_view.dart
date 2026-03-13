@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../utils/responsive.dart';
 
 class QuizView extends StatefulWidget {
   const QuizView({super.key});
@@ -310,46 +311,54 @@ class _QuizViewState extends State<QuizView> {
                   _pontuacao > (totalPerguntas / 2)
                       ? Icons.emoji_events
                       : Icons.thumb_up,
-                  size: 100,
+                  size: context.rspIcon(100),
                   color: Colors.orange[600],
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: context.rspSpacing(16)),
 
                 // 2. Texto de Felicitações
                 Text(
                   'Acertou $_pontuacao de $totalPerguntas!',
-                  style: const TextStyle(
-                    fontSize: 28,
+                  style: TextStyle(
+                    fontSize: context.rsp(28),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 30),
+                SizedBox(height: context.rspSpacing(30)),
 
                 // 3. Gráfico Circular de Desempenho
-                SizedBox(
-                  height: 150,
-                  width: 150,
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      CircularProgressIndicator(
-                        value: porcentagemAcertos,
-                        strokeWidth: 15,
-                        backgroundColor:
-                            Colors.red.shade400, // Cor para os erros
-                        color: Colors.green.shade600, // Cor para os acertos
-                      ),
-                      Center(
-                        child: Text(
-                          '${(porcentagemAcertos * 100).toStringAsFixed(0)}%',
-                          style: const TextStyle(
-                            fontSize: 32,
-                            fontWeight: FontWeight.bold,
+                Builder(
+                  builder: (context) {
+                    final chartSize = (context.screenWidth * 0.4).clamp(
+                      120.0,
+                      180.0,
+                    );
+                    return SizedBox(
+                      height: chartSize,
+                      width: chartSize,
+                      child: Stack(
+                        fit: StackFit.expand,
+                        children: [
+                          CircularProgressIndicator(
+                            value: porcentagemAcertos,
+                            strokeWidth: 15,
+                            backgroundColor:
+                                Colors.red.shade400, // Cor para os erros
+                            color: Colors.green.shade600, // Cor para os acertos
                           ),
-                        ),
+                          Center(
+                            child: Text(
+                              '${(porcentagemAcertos * 100).toStringAsFixed(0)}%',
+                              style: TextStyle(
+                                fontSize: context.rsp(32),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    );
+                  },
                 ),
                 const SizedBox(height: 20),
 
@@ -358,25 +367,32 @@ class _QuizViewState extends State<QuizView> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     _construirLegenda(
+                      context,
                       Colors.green.shade600,
                       'Acertos: $_pontuacao',
                     ),
                     const SizedBox(width: 20),
-                    _construirLegenda(Colors.red.shade400, 'Erros: $erros'),
+                    _construirLegenda(
+                      context,
+                      Colors.red.shade400,
+                      'Erros: $erros',
+                    ),
                   ],
                 ),
-                const SizedBox(height: 30),
+                SizedBox(height: context.rspSpacing(30)),
 
                 // 5. Mensagem Motivacional
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24.0),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: context.rspSpacing(24.0),
+                  ),
                   child: Text(
                     'Continue consolidando os seus conhecimentos sobre as proteções trabalhistas e previdenciárias para garantir todos os seus direitos na prática!',
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(fontSize: context.rsp(16)),
                   ),
                 ),
-                const SizedBox(height: 40),
+                SizedBox(height: context.rspSpacing(40)),
 
                 // 6. Botão de Retorno
                 ElevatedButton.icon(
@@ -384,9 +400,13 @@ class _QuizViewState extends State<QuizView> {
                   icon: const Icon(Icons.home),
                   label: const Text('Voltar ao Menu Principal'),
                   style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(200, 50),
+                    minimumSize: Size(
+                      context.screenWidth * 0.6,
+                      context.rspSpacing(52),
+                    ),
                     backgroundColor: Colors.green.shade700,
                     foregroundColor: Colors.white,
+                    textStyle: TextStyle(fontSize: context.rsp(16)),
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -422,11 +442,11 @@ class _QuizViewState extends State<QuizView> {
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: EdgeInsets.all(context.rspSpacing(20.0)),
                 child: Text(
                   pergunta['texto'],
-                  style: const TextStyle(
-                    fontSize: 18,
+                  style: TextStyle(
+                    fontSize: context.rsp(18),
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -464,13 +484,16 @@ class _QuizViewState extends State<QuizView> {
                       border: Border.all(color: corBorda, width: 2),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    padding: const EdgeInsets.all(16.0),
+                    padding: EdgeInsets.all(context.rspSpacing(16.0)),
                     child: Row(
                       children: [
                         Expanded(
                           child: Text(
                             textoOpcao,
-                            style: TextStyle(fontSize: 16, color: corTexto),
+                            style: TextStyle(
+                              fontSize: context.rsp(16),
+                              color: corTexto,
+                            ),
                           ),
                         ),
                         if (_respondido && index == respostaCorreta)
@@ -508,6 +531,7 @@ class _QuizViewState extends State<QuizView> {
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.blue.shade800,
+                              fontSize: context.rsp(14),
                             ),
                           ),
                         ],
@@ -517,7 +541,7 @@ class _QuizViewState extends State<QuizView> {
                         pergunta['explicacao'],
                         style: TextStyle(
                           color: Colors.blue.shade900,
-                          fontSize: 15,
+                          fontSize: context.rsp(15),
                         ),
                       ),
                     ],
@@ -529,11 +553,9 @@ class _QuizViewState extends State<QuizView> {
                 onPressed: _proximaPergunta,
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(double.infinity, 50),
+                  textStyle: TextStyle(fontSize: context.rsp(16)),
                 ),
-                child: const Text(
-                  'Próxima Pergunta',
-                  style: TextStyle(fontSize: 16),
-                ),
+                child: const Text('Próxima Pergunta'),
               ),
               const SizedBox(height: 20),
             ],
@@ -544,18 +566,21 @@ class _QuizViewState extends State<QuizView> {
   }
 
   // Widget auxiliar para criar a legenda de cores do gráfico
-  Widget _construirLegenda(Color cor, String texto) {
+  Widget _construirLegenda(BuildContext context, Color cor, String texto) {
     return Row(
       children: [
         Container(
-          width: 16,
-          height: 16,
+          width: context.rspIcon(16),
+          height: context.rspIcon(16),
           decoration: BoxDecoration(color: cor, shape: BoxShape.circle),
         ),
         const SizedBox(width: 8),
         Text(
           texto,
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontSize: context.rsp(16),
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ],
     );

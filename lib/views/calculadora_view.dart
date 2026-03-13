@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../utils/responsive.dart';
 import '../viewmodels/calculadora_controller.dart';
 import '../widgets/date_picker_form_field.dart';
 import '../widgets/resultado_card.dart';
@@ -182,7 +183,7 @@ class _CalculadoraViewState extends State<CalculadoraView> {
     return Scaffold(
       appBar: AppBar(title: const Text('Calculadora PEC 14/21')),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(context.rspSpacing(16)),
         child: Form(
           key: _formKey,
           autovalidateMode: AutovalidateMode.onUnfocus,
@@ -221,17 +222,50 @@ class _CalculadoraViewState extends State<CalculadoraView> {
               ),
               const SizedBox(height: 20),
 
-              // 3. Data de Admissão
-              DatePickerFormField(
-                controller: _dataAdmissaoCtrl,
-                labelText: 'Data de Admissão (Como ACS/ACE)',
-                icon: Icons.event_available,
-                onTap: () => _selecionarData(context, false),
-                onClear: () => _limparData(false),
+              const Divider(),
+              const Text(
+                'Dados Calculados Automaticamente:',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey,
+                ),
+              ),
+              const SizedBox(height: 10),
+
+              // 4. Idade (Preenchido Automaticamente)
+              TextField(
+                controller: _idadeCtrl,
+                decoration: const InputDecoration(
+                  labelText: 'Idade Atual (anos)',
+                  filled: true,
+                ),
+                readOnly: true, // Bloqueado para edição manual
               ),
               const SizedBox(height: 12),
 
-              // 4. Tempo de Outras Funções (Preenchido Manualmente, pois pode ter trabalhado noutras áreas)
+              // 5. Tempo na Função (Preenchido Automaticamente)
+              TextField(
+                controller: _tempoFuncaoCtrl,
+                decoration: const InputDecoration(
+                  labelText: 'Tempo na Função ACS/ACE (anos)',
+                  filled: true,
+                ),
+                readOnly: true, // Bloqueado para edição manual
+              ),
+              const SizedBox(height: 12),
+
+              const Divider(),
+
+              const Text(
+                'Dados a Preencher Manualmente:',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey,
+                ),
+              ),
+              const SizedBox(height: 10),
+
+              // 6. Tempo de Outras Funções (Preenchido Manualmente, pois pode ter trabalhado noutras áreas)
               TextFormField(
                 controller: _tempoOutrasFuncoesCtrl,
                 decoration: const InputDecoration(
@@ -298,17 +332,15 @@ class _CalculadoraViewState extends State<CalculadoraView> {
               ElevatedButton(
                 onPressed: _calcular,
                 style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(double.infinity, 50),
+                  minimumSize: const Size(double.infinity, 52),
                   backgroundColor: Colors.green.shade700,
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
+                  textStyle: TextStyle(fontSize: context.rsp(16)),
                 ),
-                child: const Text(
-                  'Verificar Status de Aposentadoria',
-                  style: TextStyle(fontSize: 16),
-                ),
+                child: const Text('Verificar Status de Aposentadoria'),
               ),
               if (_resultados != null) ...[
                 const SizedBox(height: 12),
@@ -330,9 +362,12 @@ class _CalculadoraViewState extends State<CalculadoraView> {
 
               if (_resultados != null) ...[
                 const SizedBox(height: 30),
-                const Text(
+                Text(
                   'RESULTADOS:',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: context.rsp(18),
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(height: 10),
                 ResultadoCard(
@@ -340,18 +375,27 @@ class _CalculadoraViewState extends State<CalculadoraView> {
                   isApto: _resultados!['regra1']['apto'],
                   detalhe: _resultados!['regra1']['detalhe'],
                   tempoRestante: _resultados!['regra1']['tempoRestante'],
+                  dataElegibilidade:
+                      _resultados!['regra1']['dataElegibilidade'],
+                  idadeEstimada: _resultados!['regra1']['idadeEstimada'],
                 ),
                 ResultadoCard(
                   titulo: 'Regra 2: Redução de Idade',
                   isApto: _resultados!['regra2']['apto'],
                   detalhe: _resultados!['regra2']['detalhe'],
                   tempoRestante: _resultados!['regra2']['tempoRestante'],
+                  dataElegibilidade:
+                      _resultados!['regra2']['dataElegibilidade'],
+                  idadeEstimada: _resultados!['regra2']['idadeEstimada'],
                 ),
                 ResultadoCard(
                   titulo: 'Regra 3: Sistema de Pontos',
                   isApto: _resultados!['regra3']['apto'],
                   detalhe: _resultados!['regra3']['detalhe'],
                   tempoRestante: _resultados!['regra3']['tempoRestante'],
+                  dataElegibilidade:
+                      _resultados!['regra3']['dataElegibilidade'],
+                  idadeEstimada: _resultados!['regra3']['idadeEstimada'],
                 ),
               ],
             ],
