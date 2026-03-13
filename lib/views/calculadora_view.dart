@@ -24,7 +24,7 @@ class _CalculadoraViewState extends State<CalculadoraView> {
   final _dataAdmissaoCtrl = TextEditingController();
   final _idadeCtrl = TextEditingController();
   final _tempoFuncaoCtrl = TextEditingController();
-  final _tempoOutrasFuncoesCtrl = TextEditingController();
+  final _tempoOutrasFuncoesCtrl = TextEditingController(text: '0');
   final _tempoContribCtrl = TextEditingController();
 
   Map<String, dynamic>? _resultados;
@@ -135,6 +135,21 @@ class _CalculadoraViewState extends State<CalculadoraView> {
     });
   }
 
+  void _novoCalculo() {
+    setState(() {
+      _dataNascimento = null;
+      _dataAdmissao = null;
+      _sexo = 'F';
+      _dataNascimentoCtrl.clear();
+      _dataAdmissaoCtrl.clear();
+      _idadeCtrl.clear();
+      _tempoFuncaoCtrl.clear();
+      _tempoOutrasFuncoesCtrl.text = '0';
+      _tempoContribCtrl.clear();
+      _resultados = null;
+    });
+  }
+
   void _calcular() {
     // Dispara a validação do formulário
     if (_formKey.currentState!.validate()) {
@@ -175,6 +190,16 @@ class _CalculadoraViewState extends State<CalculadoraView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              const Divider(),
+              const Text(
+                'Dados a Preencher Manualmente:',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey,
+                ),
+              ),
+              const SizedBox(height: 10),
+
               // 1. Data de Nascimento
               DatePickerFormField(
                 controller: _dataNascimentoCtrl,
@@ -185,17 +210,7 @@ class _CalculadoraViewState extends State<CalculadoraView> {
               ),
               const SizedBox(height: 12),
 
-              // 2. Data de Admissão
-              DatePickerFormField(
-                controller: _dataAdmissaoCtrl,
-                labelText: 'Data de Admissão (Como ACS/ACE)',
-                icon: Icons.event_available,
-                onTap: () => _selecionarData(context, false),
-                onClear: () => _limparData(false),
-              ),
-              const SizedBox(height: 12),
-
-              // 3. Sexo
+              // 2. Sexo
               DropdownButtonFormField<String>(
                 initialValue: _sexo,
                 decoration: const InputDecoration(labelText: 'Sexo'),
@@ -208,12 +223,11 @@ class _CalculadoraViewState extends State<CalculadoraView> {
               const SizedBox(height: 20),
 
               const Divider(),
-              Text(
+              const Text(
                 'Dados Calculados Automaticamente:',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.grey,
-                  fontSize: context.rsp(13),
                 ),
               ),
               const SizedBox(height: 10),
@@ -242,12 +256,11 @@ class _CalculadoraViewState extends State<CalculadoraView> {
 
               const Divider(),
 
-              Text(
+              const Text(
                 'Dados a Preencher Manualmente:',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.grey,
-                  fontSize: context.rsp(13),
                 ),
               ),
               const SizedBox(height: 10),
@@ -272,6 +285,38 @@ class _CalculadoraViewState extends State<CalculadoraView> {
                 },
               ),
 
+              const Divider(),
+              const Text(
+                'Dados Calculados Automaticamente:',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey,
+                ),
+              ),
+              const SizedBox(height: 10),
+
+              // 5. Idade (Preenchido Automaticamente)
+              TextField(
+                controller: _idadeCtrl,
+                decoration: const InputDecoration(
+                  labelText: 'Idade Atual (anos)',
+                  filled: true,
+                ),
+                enabled: false,
+              ),
+              const SizedBox(height: 12),
+
+              // 6. Tempo na Função (Preenchido Automaticamente)
+              TextField(
+                controller: _tempoFuncaoCtrl,
+                decoration: const InputDecoration(
+                  labelText: 'Tempo na Função ACS/ACE (anos)',
+                  filled: true,
+                ),
+                enabled: false,
+              ),
+              const SizedBox(height: 12),
+
               // 7. Tempo de Contribuição Total (Preenchido Automaticamente)
               TextField(
                 controller: _tempoContribCtrl,
@@ -280,7 +325,7 @@ class _CalculadoraViewState extends State<CalculadoraView> {
                       'Tempo Total de Contribuição INSS/Regime Próprio (anos)',
                   filled: true,
                 ),
-                readOnly: true, // Bloqueado para edição manual
+                enabled: false,
               ),
 
               const SizedBox(height: 24),
@@ -297,6 +342,23 @@ class _CalculadoraViewState extends State<CalculadoraView> {
                 ),
                 child: const Text('Verificar Status de Aposentadoria'),
               ),
+              if (_resultados != null) ...[
+                const SizedBox(height: 12),
+                OutlinedButton(
+                  onPressed: _novoCalculo,
+                  style: OutlinedButton.styleFrom(
+                    minimumSize: const Size(double.infinity, 50),
+                    side: BorderSide(color: Colors.grey.shade600),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  child: const Text(
+                    'Novo Cálculo',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+              ],
 
               if (_resultados != null) ...[
                 const SizedBox(height: 30),
