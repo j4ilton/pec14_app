@@ -1,8 +1,8 @@
 name: pec14_app
-description: "A new Flutter project."
+description: A new Flutter project.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: none # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -74,10 +74,9 @@ flutter_launcher_icons:
     generate: true
   linux:
     generate: true
-  image_path: "assets/icon.png"
-  adaptive_icon_background: "#2196F3"
-  adaptive_icon_foreground: "assets/icon.png"
-
+  image_path: assets/icon.png
+  adaptive_icon_background: '#2196F3'
+  adaptive_icon_foreground: assets/icon.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
