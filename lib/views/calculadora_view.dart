@@ -220,52 +220,19 @@ class _CalculadoraViewState extends State<CalculadoraView> {
                 ],
                 onChanged: (val) => setState(() => _sexo = val!),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 12),
 
-              const Divider(),
-              const Text(
-                'Dados Calculados Automaticamente:',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey,
-                ),
-              ),
-              const SizedBox(height: 10),
-
-              // 4. Idade (Preenchido Automaticamente)
-              TextField(
-                controller: _idadeCtrl,
-                decoration: const InputDecoration(
-                  labelText: 'Idade Atual (anos)',
-                  filled: true,
-                ),
-                readOnly: true, // Bloqueado para edição manual
+              // 3. Data de Admissão
+              DatePickerFormField(
+                controller: _dataAdmissaoCtrl,
+                labelText: 'Data de Admissão',
+                icon: Icons.calendar_today,
+                onTap: () => _selecionarData(context, false),
+                onClear: () => _limparData(false),
               ),
               const SizedBox(height: 12),
 
-              // 5. Tempo na Função (Preenchido Automaticamente)
-              TextField(
-                controller: _tempoFuncaoCtrl,
-                decoration: const InputDecoration(
-                  labelText: 'Tempo na Função ACS/ACE (anos)',
-                  filled: true,
-                ),
-                readOnly: true, // Bloqueado para edição manual
-              ),
-              const SizedBox(height: 12),
-
-              const Divider(),
-
-              const Text(
-                'Dados a Preencher Manualmente:',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey,
-                ),
-              ),
-              const SizedBox(height: 10),
-
-              // 6. Tempo de Outras Funções (Preenchido Manualmente, pois pode ter trabalhado noutras áreas)
+              // 4. Tempo de Outras Funções
               TextFormField(
                 controller: _tempoOutrasFuncoesCtrl,
                 decoration: const InputDecoration(
@@ -284,6 +251,7 @@ class _CalculadoraViewState extends State<CalculadoraView> {
                   return null;
                 },
               ),
+              const SizedBox(height: 20),
 
               const Divider(),
               const Text(
@@ -295,7 +263,7 @@ class _CalculadoraViewState extends State<CalculadoraView> {
               ),
               const SizedBox(height: 10),
 
-              // 5. Idade (Preenchido Automaticamente)
+              // 1. Idade Atual
               TextField(
                 controller: _idadeCtrl,
                 decoration: const InputDecoration(
@@ -306,7 +274,7 @@ class _CalculadoraViewState extends State<CalculadoraView> {
               ),
               const SizedBox(height: 12),
 
-              // 6. Tempo na Função (Preenchido Automaticamente)
+              // 2. Tempo na Função ACS/ACE
               TextField(
                 controller: _tempoFuncaoCtrl,
                 decoration: const InputDecoration(
@@ -317,7 +285,7 @@ class _CalculadoraViewState extends State<CalculadoraView> {
               ),
               const SizedBox(height: 12),
 
-              // 7. Tempo de Contribuição Total (Preenchido Automaticamente)
+              // 3. Tempo de Contribuição Total
               TextField(
                 controller: _tempoContribCtrl,
                 decoration: const InputDecoration(
