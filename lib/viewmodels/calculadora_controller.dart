@@ -172,6 +172,16 @@ class CalculadoraController {
     return _addYears(hoje, 50);
   }
 
+  /// Calcula anos completos até a data de hoje (Ex: Idade ou Tempo de serviço).
+  int calcularAnosAteHoje(DateTime dataBase) {
+    return _ageAt(dataBase, DateTime.now());
+  }
+
+  /// Soma dois valores de tempo (anos).
+  int somarTempoTotal(int tempoA, int tempoB) {
+    return tempoA + tempoB;
+  }
+
   Map<String, dynamic> calcularRegras(CalculadoraInput input) {
     final DateTime hoje = DateTime.now();
     final int anoAtual = hoje.year;
