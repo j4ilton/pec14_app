@@ -51,22 +51,14 @@ class _CalculadoraViewState extends State<CalculadoraView> {
   void _calcularTempoContribuicaoTotal() {
     int tempoFuncao = int.tryParse(_tempoFuncaoCtrl.text) ?? 0;
     int tempoOutrasFuncoes = int.tryParse(_tempoOutrasFuncoesCtrl.text) ?? 0;
-    int tempoTotal = tempoFuncao + tempoOutrasFuncoes;
+    int tempoTotal = _controller.somarTempoTotal(
+      tempoFuncao,
+      tempoOutrasFuncoes,
+    );
 
     setState(() {
       _tempoContribCtrl.text = tempoTotal.toString();
     });
-  }
-
-  // Função para calcular anos exatos entre uma data e hoje
-  int _calcularAnos(DateTime dataBase) {
-    DateTime hoje = DateTime.now();
-    int anos = hoje.year - dataBase.year;
-    if (hoje.month < dataBase.month ||
-        (hoje.month == dataBase.month && hoje.day < dataBase.day)) {
-      anos--; // Subtrai 1 ano se ainda não fez aniversário/aniversário de admissão este ano
-    }
-    return anos > 0 ? anos : 0;
   }
 
   // Função para abrir o calendário e escolher a data
@@ -103,13 +95,13 @@ class _CalculadoraViewState extends State<CalculadoraView> {
           _dataNascimento = dataEscolhida;
           _dataNascimentoCtrl.text = dataFormatada;
           // Calcula e preenche a Idade
-          int idade = _calcularAnos(dataEscolhida);
+          int idade = _controller.calcularAnosAteHoje(dataEscolhida);
           _idadeCtrl.text = idade.toString();
         } else {
           _dataAdmissao = dataEscolhida;
           _dataAdmissaoCtrl.text = dataFormatada;
           // Calcula e preenche o Tempo de Função
-          int tempoFuncao = _calcularAnos(dataEscolhida);
+          int tempoFuncao = _controller.calcularAnosAteHoje(dataEscolhida);
           _tempoFuncaoCtrl.text = tempoFuncao.toString();
           // Recalcula o tempo total de contribuição
           _calcularTempoContribuicaoTotal();
