@@ -1,286 +1,112 @@
-class TempoRestante {
-  final int anos;
-  final int meses;
-  final int dias;
+// lib/viewmodels/calculadora_controller.dart
+import 'package:flutter/material.dart';
+import '../domain/enums/genero.dart';
+import '../domain/usecases/calcular_elegibilidade_pec14_usecase.dart';
 
-  const TempoRestante(this.anos, this.meses, this.dias);
+class CalculadoraController extends ChangeNotifier {
+  final CalcularElegibilidadePec14UseCase _calcularElegibilidadeUseCase;
 
-  bool get isZero => anos == 0 && meses == 0 && dias == 0;
+  CalculadoraController({CalcularElegibilidadePec14UseCase? useCase})
+    : _calcularElegibilidadeUseCase =
+          useCase ?? CalcularElegibilidadePec14UseCase();
 
-  String formatar() {
-    final List<String> partes = [];
-    if (anos > 0) partes.add('$anos ano${anos != 1 ? "s" : ""}');
-    if (meses > 0) partes.add('$meses ${meses != 1 ? "meses" : "mês"}');
-    if (dias > 0) partes.add('$dias dia${dias != 1 ? "s" : ""}');
-    return partes.join(', ');
-  }
-}
+  // Inputs da Tela
+  DateTime? _dataNascimento;
+  DateTime? _dataInicioAcsAce;
+  Genero? _genero;
+  int _anosOutroTempo = 0;
+  int _mesesOutroTempo = 0;
 
-class CalculadoraInput {
-  final String sexo;
-  final int idade;
-  final int tempoFuncao;
-  final int tempoOutrasFuncoes;
-  final int tempoContribuicao;
-  final DateTime dataNascimento;
-  final DateTime dataAdmissao;
+  // Estados de Saída
+  ResultadoAposentadoria? _resultado;
+  String? _erroMensagem;
 
-  CalculadoraInput({
-    required this.sexo,
-    required this.idade,
-    required this.tempoFuncao,
-    required this.tempoOutrasFuncoes,
-    required this.tempoContribuicao,
-    required this.dataNascimento,
-    required this.dataAdmissao,
-  });
-}
+  // Getters
+  DateTime? get dataNascimento => _dataNascimento;
+  DateTime? get dataInicioAcsAce => _dataInicioAcsAce;
+  Genero? get genero => _genero;
+  int get anosOutroTempo => _anosOutroTempo;
+  int get mesesOutroTempo => _mesesOutroTempo;
 
-class CalculadoraController {
-  int _getIdadeMinimaR1(int ano, String sexo) {
-    if (ano <= 2030) return sexo == 'F' ? 50 : 52;
-    if (ano <= 2035) return sexo == 'F' ? 52 : 54;
-    if (ano <= 2040) return sexo == 'F' ? 54 : 56;
-    return sexo == 'F' ? 57 : 60;
+  ResultadoAposentadoria? get resultado => _resultado;
+  String? get erroMensagem => _erroMensagem;
+  bool get hasResultado => _resultado != null;
+
+  // Setters com notificação
+  void setDataNascimento(DateTime data) {
+    _dataNascimento = data;
+    _limparResultado();
+    notifyListeners();
   }
 
-  /// Adiciona [years] anos a [date], respeitando o último dia do mês.
-  DateTime _addYears(DateTime date, int years) {
-    final int newYear = date.year + years;
-    final int lastDay = DateTime(newYear, date.month + 1, 0).day;
-    return DateTime(
-      newYear,
-      date.month,
-      date.day > lastDay ? lastDay : date.day,
-    );
+  void setDataInicioAcsAce(DateTime data) {
+    _dataInicioAcsAce = data;
+    _limparResultado();
+    notifyListeners();
   }
 
-  /// Anos completos de [birthDate] até [atDate].
-  int _ageAt(DateTime birthDate, DateTime atDate) {
-    int age = atDate.year - birthDate.year;
-    if (atDate.month < birthDate.month ||
-        (atDate.month == birthDate.month && atDate.day < birthDate.day)) {
-      age--;
-    }
-    return age < 0 ? 0 : age;
+  void setGenero(Genero? genero) {
+    _genero = genero;
+    _limparResultado();
+    notifyListeners();
   }
 
-  /// Anos completos desde [startDate] até [atDate].
-  int _yearsAt(DateTime startDate, DateTime atDate) {
-    int years = atDate.year - startDate.year;
-    if (atDate.month < startDate.month ||
-        (atDate.month == startDate.month && atDate.day < startDate.day)) {
-      years--;
-    }
-    return years < 0 ? 0 : years;
+  void setOutroTempo(int? anos, int? meses) {
+    if (anos != null) _anosOutroTempo = anos;
+    if (meses != null) _mesesOutroTempo = meses;
+    _limparResultado();
+    notifyListeners();
   }
 
-  /// Diferença de [hoje] até [targetDate] em anos, meses e dias.
-  TempoRestante _calcularDiff(DateTime hoje, DateTime targetDate) {
-    if (!targetDate.isAfter(hoje)) return const TempoRestante(0, 0, 0);
-    int anos = targetDate.year - hoje.year;
-    int meses = targetDate.month - hoje.month;
-    int dias = targetDate.day - hoje.day;
-    if (dias < 0) {
-      meses--;
-      dias += DateTime(targetDate.year, targetDate.month, 0).day;
+  void calcular() {
+    // Validação Rigorosa de Inputs (Evita o problema da imagem)
+    if (_dataNascimento == null) {
+      _erroMensagem = 'A Data de Nascimento é obrigatória.';
+      notifyListeners();
+      return;
     }
-    if (meses < 0) {
-      anos--;
-      meses += 12;
+    if (_dataInicioAcsAce == null) {
+      _erroMensagem = 'A Data de Início ACS/ACE é obrigatória.';
+      notifyListeners();
+      return;
     }
-    return TempoRestante(anos, meses, dias);
+    if (_genero == null) {
+      _erroMensagem = 'A seleção de Gênero é obrigatória.';
+      notifyListeners();
+      return;
+    }
+
+    _erroMensagem = null;
+
+    try {
+      // Chama o Use Case com todos os dados exigidos pela PEC 14/21
+      _resultado = _calcularElegibilidadeUseCase(
+        dataNascimento: _dataNascimento!,
+        dataInicioAcsAce: _dataInicioAcsAce!,
+        anosOutroTempo: _anosOutroTempo,
+        mesesOutroTempo: _mesesOutroTempo,
+        genero: _genero!,
+      );
+    } catch (e) {
+      _erroMensagem = 'Ocorreu um erro matemático ao realizar o cálculo.';
+      _resultado = null;
+    }
+
+    notifyListeners();
   }
 
-  /// Data exata em que a Regra 1 será satisfeita.
-  DateTime _eligibilityR1(DateTime hoje, CalculadoraInput input) {
-    final DateTime dateFunc = _addYears(input.dataAdmissao, 25);
-    final DateTime start = dateFunc.isAfter(hoje) ? dateFunc : hoje;
-
-    if (_ageAt(input.dataNascimento, start) >=
-        _getIdadeMinimaR1(start.year, input.sexo)) {
-      return start;
-    }
-
-    final int ageAtStart = _ageAt(input.dataNascimento, start);
-    for (int a = ageAtStart + 1; a <= ageAtStart + 60; a++) {
-      final DateTime birthday = _addYears(input.dataNascimento, a);
-      if (a >= _getIdadeMinimaR1(birthday.year, input.sexo)) {
-        return birthday;
-      }
-    }
-    return _addYears(hoje, 50);
+  void limparCalculo() {
+    _dataNascimento = null;
+    _dataInicioAcsAce = null;
+    _genero = null;
+    _anosOutroTempo = 0;
+    _mesesOutroTempo = 0;
+    _limparResultado();
+    notifyListeners();
   }
 
-  /// Data exata em que a Regra 2 será satisfeita.
-  DateTime _eligibilityR2(DateTime hoje, CalculadoraInput input) {
-    final DateTime minFuncDate = _addYears(input.dataAdmissao, 25);
-    final int baseAge = _ageAt(input.dataNascimento, hoje);
-    final int baseFuncYears = _yearsAt(input.dataAdmissao, hoje);
-
-    final List<DateTime> keyDates = [];
-    for (int a = baseAge; a <= baseAge + 60; a++) {
-      keyDates.add(_addYears(input.dataNascimento, a));
-    }
-    final int startFunc = baseFuncYears < 25 ? 25 : baseFuncYears;
-    for (int y = startFunc; y <= startFunc + 60; y++) {
-      keyDates.add(_addYears(input.dataAdmissao, y));
-    }
-    keyDates.sort((a, b) => a.compareTo(b));
-
-    for (final DateTime d in keyDates) {
-      if (!d.isAfter(hoje)) continue;
-      if (d.isBefore(minFuncDate)) continue;
-      final int funcYears = _yearsAt(input.dataAdmissao, d);
-      if (funcYears < 25) continue;
-      final int bonus = (funcYears - 25).clamp(0, 5);
-      final int idadeNecessaria = _getIdadeMinimaR1(d.year, input.sexo) - bonus;
-      if (_ageAt(input.dataNascimento, d) >= idadeNecessaria) return d;
-    }
-    return _addYears(hoje, 50);
-  }
-
-  /// Data exata em que a Regra 3 será satisfeita.
-  DateTime _eligibilityR3(DateTime hoje, CalculadoraInput input) {
-    final int idadeMinimaR3 = input.sexo == 'F' ? 60 : 63;
-    final int pontosNecessarios = input.sexo == 'F' ? 83 : 86;
-    final int baseAge = _ageAt(input.dataNascimento, hoje);
-    final int baseFuncYears = _yearsAt(input.dataAdmissao, hoje);
-
-    final List<DateTime> keyDates = [];
-    for (int a = baseAge; a <= baseAge + 60; a++) {
-      keyDates.add(_addYears(input.dataNascimento, a));
-    }
-    for (int y = baseFuncYears; y <= baseFuncYears + 60; y++) {
-      keyDates.add(_addYears(input.dataAdmissao, y));
-    }
-    keyDates.sort((a, b) => a.compareTo(b));
-
-    for (final DateTime d in keyDates) {
-      if (!d.isAfter(hoje)) continue;
-      final int funcYears = _yearsAt(input.dataAdmissao, d);
-      final int ageAtD = _ageAt(input.dataNascimento, d);
-      final int contribAtD = input.tempoOutrasFuncoes + funcYears;
-      final int pontosAtD = ageAtD + contribAtD;
-      if (funcYears >= 10 &&
-          contribAtD >= 15 &&
-          ageAtD >= idadeMinimaR3 &&
-          pontosAtD >= pontosNecessarios) {
-        return d;
-      }
-    }
-    return _addYears(hoje, 50);
-  }
-
-  /// Calcula anos completos até a data de hoje (Ex: Idade ou Tempo de serviço).
-  int calcularAnosAteHoje(DateTime dataBase) {
-    return _ageAt(dataBase, DateTime.now());
-  }
-
-  /// Soma dois valores de tempo (anos).
-  int somarTempoTotal(int tempoA, int tempoB) {
-    return tempoA + tempoB;
-  }
-
-  Map<String, dynamic> calcularRegras(CalculadoraInput input) {
-    final DateTime hoje = DateTime.now();
-    final int anoAtual = hoje.year;
-
-    // ---------------------------------------------------------
-    // REGRA 1: Idade Mínima Progressiva (Baseada no ano atual)
-    // ---------------------------------------------------------
-    final int idadeMinimaR1 = _getIdadeMinimaR1(anoAtual, input.sexo);
-    final bool regra1Apto =
-        (input.tempoFuncao >= 25) && (input.idade >= idadeMinimaR1);
-    final TempoRestante tempoRestanteR1 = regra1Apto
-        ? const TempoRestante(0, 0, 0)
-        : _calcularDiff(hoje, _eligibilityR1(hoje, input));
-
-    // ---------------------------------------------------------
-    // REGRA 2: Redução de Idade com Mais Tempo de Serviço
-    // ---------------------------------------------------------
-    bool regra2Apto = false;
-    int idadeNecessariaR2 = idadeMinimaR1;
-    int bonusAplicado = 0;
-    if (input.tempoFuncao >= 25) {
-      bonusAplicado = (input.tempoFuncao - 25).clamp(0, 5);
-      idadeNecessariaR2 -= bonusAplicado;
-      regra2Apto = (input.idade >= idadeNecessariaR2);
-    }
-    final TempoRestante tempoRestanteR2 = regra2Apto
-        ? const TempoRestante(0, 0, 0)
-        : _calcularDiff(hoje, _eligibilityR2(hoje, input));
-
-    // ---------------------------------------------------------
-    // REGRA 3: Sistema de Pontos
-    // ---------------------------------------------------------
-    final int idadeMinimaR3 = input.sexo == 'F' ? 60 : 63;
-    final int pontosNecessarios = input.sexo == 'F' ? 83 : 86;
-    final int pontosAtuais = input.idade + input.tempoContribuicao;
-    final bool regra3Apto =
-        (input.tempoFuncao >= 10) &&
-        (input.tempoContribuicao >= 15) &&
-        (input.idade >= idadeMinimaR3) &&
-        (pontosAtuais >= pontosNecessarios);
-    final TempoRestante tempoRestanteR3 = regra3Apto
-        ? const TempoRestante(0, 0, 0)
-        : _calcularDiff(hoje, _eligibilityR3(hoje, input));
-
-    // ---------------------------------------------------------
-    // DATAS DE ELEGIBILIDADE (projeção futura por regra)
-    // ---------------------------------------------------------
-    final DateTime? dataElegibilidadeR1 = regra1Apto
-        ? null
-        : _eligibilityR1(hoje, input);
-    final DateTime? dataElegibilidadeR2 = regra2Apto
-        ? null
-        : _eligibilityR2(hoje, input);
-    final DateTime? dataElegibilidadeR3 = regra3Apto
-        ? null
-        : _eligibilityR3(hoje, input);
-
-    // ---------------------------------------------------------
-    // IDADES ESTIMADAS NA DATA DE ELEGIBILIDADE
-    // ---------------------------------------------------------
-    final int idadeEstimadaR1 = regra1Apto
-        ? input.idade
-        : _ageAt(input.dataNascimento, dataElegibilidadeR1!);
-    final int idadeEstimadaR2 = regra2Apto
-        ? input.idade
-        : _ageAt(input.dataNascimento, dataElegibilidadeR2!);
-    final int idadeEstimadaR3 = regra3Apto
-        ? input.idade
-        : _ageAt(input.dataNascimento, dataElegibilidadeR3!);
-
-    // ---------------------------------------------------------
-    // RETORNO DOS RESULTADOS PARA A INTERFACE
-    // ---------------------------------------------------------
-    return {
-      'regra1': {
-        'apto': regra1Apto,
-        'detalhe':
-            'Ano: $anoAtual. Exige 25 anos na função e idade mínima de $idadeMinimaR1 anos.',
-        'tempoRestante': tempoRestanteR1,
-        'dataElegibilidade': dataElegibilidadeR1,
-        'idadeEstimada': idadeEstimadaR1,
-      },
-      'regra2': {
-        'apto': regra2Apto,
-        'detalhe': bonusAplicado > 0
-            ? 'Bónus de $bonusAplicado ano(s) aplicado. Idade mínima exigida cai para $idadeNecessariaR2 anos.'
-            : 'Requer mais de 25 anos de função para obter bónus de redução de idade.',
-        'tempoRestante': tempoRestanteR2,
-        'dataElegibilidade': dataElegibilidadeR2,
-        'idadeEstimada': idadeEstimadaR2,
-      },
-      'regra3': {
-        'apto': regra3Apto,
-        'detalhe':
-            'Exige $pontosNecessarios pontos e idade mínima de $idadeMinimaR3 anos. Pontuação atual: $pontosAtuais.',
-        'tempoRestante': tempoRestanteR3,
-        'dataElegibilidade': dataElegibilidadeR3,
-        'idadeEstimada': idadeEstimadaR3,
-      },
-    };
+  void _limparResultado() {
+    _resultado = null;
+    _erroMensagem = null;
   }
 }
