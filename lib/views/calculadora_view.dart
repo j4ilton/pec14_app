@@ -16,22 +16,37 @@ class CalculadoraView extends StatefulWidget {
 class _CalculadoraViewState extends State<CalculadoraView> {
   late final CalculadoraController _controller;
   String? _ultimaMensagemErroExibida;
+  late final TextEditingController _anosOutroTempoController;
+  late final TextEditingController _mesesOutroTempoController;
 
   @override
   void initState() {
     super.initState();
     _controller = CalculadoraController();
     _controller.addListener(_onControllerChanged);
+    _anosOutroTempoController = TextEditingController(
+      text: _controller.anosOutroTempo > 0
+          ? _controller.anosOutroTempo.toString()
+          : '',
+    );
+    _mesesOutroTempoController = TextEditingController(
+      text: _controller.mesesOutroTempo > 0
+          ? _controller.mesesOutroTempo.toString()
+          : '',
+    );
   }
 
   @override
   void dispose() {
     _controller.removeListener(_onControllerChanged);
     _controller.dispose();
+    _anosOutroTempoController.dispose();
+    _mesesOutroTempoController.dispose();
     super.dispose();
   }
 
   void _onControllerChanged() {
+    _syncOutroTempoFields();
     final erroAtual = _controller.erroMensagem;
 
     if (erroAtual == null || erroAtual.isEmpty) {
@@ -52,6 +67,22 @@ class _CalculadoraViewState extends State<CalculadoraView> {
     );
 
     _controller.clearErroMensagem();
+  }
+
+  void _syncOutroTempoFields() {
+    final anosTexto = _controller.anosOutroTempo > 0
+        ? _controller.anosOutroTempo.toString()
+        : '';
+    final mesesTexto = _controller.mesesOutroTempo > 0
+        ? _controller.mesesOutroTempo.toString()
+        : '';
+
+    if (_anosOutroTempoController.text != anosTexto) {
+      _anosOutroTempoController.text = anosTexto;
+    }
+    if (_mesesOutroTempoController.text != mesesTexto) {
+      _mesesOutroTempoController.text = mesesTexto;
+    }
   }
 
   @override
@@ -150,9 +181,7 @@ class _CalculadoraViewState extends State<CalculadoraView> {
                     children: [
                       Expanded(
                         child: TextFormField(
-                          initialValue: _controller.anosOutroTempo > 0
-                              ? _controller.anosOutroTempo.toString()
-                              : '',
+                          controller: _anosOutroTempoController,
                           decoration: const InputDecoration(
                             labelText: 'Anos',
                             border: OutlineInputBorder(),
@@ -170,9 +199,7 @@ class _CalculadoraViewState extends State<CalculadoraView> {
                       const SizedBox(width: 16),
                       Expanded(
                         child: TextFormField(
-                          initialValue: _controller.mesesOutroTempo > 0
-                              ? _controller.mesesOutroTempo.toString()
-                              : '',
+                          controller: _mesesOutroTempoController,
                           decoration: const InputDecoration(
                             labelText: 'Meses',
                             border: OutlineInputBorder(),

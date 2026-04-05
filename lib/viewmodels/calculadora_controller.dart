@@ -53,8 +53,20 @@ class CalculadoraController extends ChangeNotifier {
   }
 
   void setOutroTempo(int? anos, int? meses) {
-    if (anos != null) _anosOutroTempo = anos;
-    if (meses != null) _mesesOutroTempo = meses;
+    var novoAnos = _anosOutroTempo;
+    var novoMeses = _mesesOutroTempo;
+
+    if (anos != null) novoAnos = anos;
+    if (meses != null) novoMeses = meses;
+
+    if (novoMeses >= 12) {
+      final anosExtra = novoMeses ~/ 12;
+      novoAnos += anosExtra;
+      novoMeses = novoMeses % 12;
+    }
+
+    _anosOutroTempo = novoAnos;
+    _mesesOutroTempo = novoMeses;
     _limparResultado();
     notifyListeners();
   }

@@ -5,6 +5,39 @@ import 'package:pec14_app/viewmodels/calculadora_controller.dart';
 
 void main() {
   group('CalculadoraController - validações de entrada', () {
+    test('normaliza meses acima de 11 somando anos', () {
+      final controller = CalculadoraController();
+
+      controller.setOutroTempo(2, 14);
+
+      expect(controller.anosOutroTempo, 3);
+      expect(controller.mesesOutroTempo, 2);
+    });
+
+    test('limparCalculo zera estado numérico e resultado', () {
+      final useCaseSpy = _CalcularElegibilidadeUseCaseSpy();
+      final controller = CalculadoraController(useCase: useCaseSpy);
+
+      controller.setDataNascimento(DateTime(1985, 8, 14));
+      controller.setDataInicioAcsAce(DateTime(2002, 9, 1));
+      controller.setGenero(Genero.feminino);
+      controller.setOutroTempo(3, 5);
+      controller.calcular();
+
+      expect(controller.resultado, isNotNull);
+      expect(controller.erroMensagem, isNull);
+
+      controller.limparCalculo();
+
+      expect(controller.dataNascimento, isNull);
+      expect(controller.dataInicioAcsAce, isNull);
+      expect(controller.genero, isNull);
+      expect(controller.anosOutroTempo, 0);
+      expect(controller.mesesOutroTempo, 0);
+      expect(controller.resultado, isNull);
+      expect(controller.erroMensagem, isNull);
+    });
+
     test('retorna erro quando data de início ACS/ACE é anterior ao nascimento', () {
       final useCaseSpy = _CalcularElegibilidadeUseCaseSpy();
       final controller = CalculadoraController(useCase: useCaseSpy);
