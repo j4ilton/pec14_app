@@ -244,22 +244,6 @@ class _DateUtils {
     return _DateYmdDifference(anos: anos, meses: meses, dias: dias);
   }
 
-  static double toDecimalYears({
-    required DateTime anchorDate,
-    required _DateYmdDifference difference,
-  }) {
-    final intermediate = addMonths(
-      addYears(dateOnly(anchorDate), difference.anos),
-      difference.meses,
-    );
-
-    final diasNoMesAtual = _daysInMonth(intermediate.year, intermediate.month);
-
-    return difference.anos +
-        (difference.meses / 12.0) +
-        (difference.dias / diasNoMesAtual / 12.0);
-  }
-
   static int _daysInMonth(int year, int month) =>
       DateTime(year, month + 1, 0).day;
 }
