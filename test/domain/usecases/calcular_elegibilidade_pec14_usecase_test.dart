@@ -45,6 +45,19 @@ void main() {
       expect(resultado.dataElegibilidade, DateTime(2025, 6, 1));
     });
 
+    test('Regra 1/2 retorna aniversário correto no caso do print (masculino)', () {
+      final resultado = useCase(
+        dataNascimento: DateTime(1982, 9, 28),
+        dataInicioAcsAce: DateTime(2008, 10, 9),
+        anosOutroTempo: 0,
+        mesesOutroTempo: 0,
+        genero: Genero.masculino,
+        dataReferencia: DateTime(2026, 1, 1),
+      );
+
+      expect(resultado.dataElegibilidade, DateTime(2035, 9, 28));
+    });
+
     test('Regra 3 usa aniversário exato da idade mínima em 29/02', () {
       final resultado = useCase(
         dataNascimento: DateTime(1964, 2, 29),

@@ -79,10 +79,7 @@ class CalcularElegibilidadePec14UseCase {
 
     // Avaliação em datas exatas (aniversários), com anos completos.
     var dataServico = _DateUtils.addYears(inicioAcsAceBase, 25);
-    var dataNascimento = _DateUtils.addYears(
-      nascimentoBase,
-      genero == Genero.feminino ? 50 : 52,
-    );
+    var dataNascimento = nascimentoBase;
 
     while (true) {
       final dataTeste =
