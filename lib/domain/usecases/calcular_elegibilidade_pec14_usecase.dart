@@ -1,4 +1,5 @@
-// lib/domain/usecases/calcular_elegibilidade_pec14_usecase.dart
+import 'dart:math';
+
 import '../enums/genero.dart';
 
 class ResultadoAposentadoria {
@@ -24,10 +25,10 @@ class CalcularElegibilidadePec14UseCase {
     required int anosOutroTempo,
     required int mesesOutroTempo,
     required Genero genero,
+    DateTime? dataReferencia,
   }) {
-    final hoje = DateTime.now();
+    final hoje = _DateUtils.dateOnly(dataReferencia ?? DateTime.now());
 
-    // Calcula os possíveis cenários
     final opcao1 = _simularRegra1e2(dataNascimento, dataInicioAcsAce, genero);
     final opcao2 = _simularRegra3(
       dataNascimento,
@@ -37,26 +38,25 @@ class CalcularElegibilidadePec14UseCase {
       genero,
     );
 
-    // O direito trabalhista sempre prioriza a regra mais benéfica (a que ocorre primeiro)
     _CandidatoAposentadoria melhorOpcao = opcao1;
     if (opcao2 != null && opcao2.data.isBefore(opcao1.data)) {
       melhorOpcao = opcao2;
     }
 
-    // Calcula o tempo restante
-    Duration restante = melhorOpcao.data.difference(hoje);
-    if (restante.isNegative) restante = Duration.zero;
+    final dataElegibilidade = _DateUtils.dateOnly(melhorOpcao.data);
+    final restante = dataElegibilidade.isAfter(hoje)
+        ? _DateUtils.diffYmd(hoje, dataElegibilidade)
+        : const _DateYmdDifference.zero();
 
     return ResultadoAposentadoria(
-      dataElegibilidade: melhorOpcao.data,
+      dataElegibilidade: dataElegibilidade,
       regraAplicada: melhorOpcao.nomeRegra,
-      anosFaltantes: (restante.inDays / 365).floor(),
-      mesesFaltantes: ((restante.inDays % 365) / 30).floor(),
-      diasFaltantes: (restante.inDays % 365) % 30,
+      anosFaltantes: restante.anos,
+      mesesFaltantes: restante.meses,
+      diasFaltantes: restante.dias,
     );
   }
 
-  // Lógica da Tabela de Escalonamento (Regra 1 pura)
   double _obterIdadeMinimaPorAno(int ano, Genero genero) {
     if (ano <= 2030) {
       return genero == Genero.feminino ? 50.0 : 52.0;
@@ -69,56 +69,55 @@ class CalcularElegibilidadePec14UseCase {
     }
   }
 
-  // Simulação unificada da Regra 1 (Idade) com a Regra 2 (Bônus)
   _CandidatoAposentadoria _simularRegra1e2(
     DateTime nascimento,
     DateTime inicioAcsAce,
     Genero genero,
   ) {
-    // O marco zero para iniciar a verificação é quando o servidor completa 25 anos na função
-    DateTime dataTeste = inicioAcsAce.add(const Duration(days: 25 * 365));
+    final nascimentoBase = _DateUtils.dateOnly(nascimento);
+    final inicioAcsAceBase = _DateUtils.dateOnly(inicioAcsAce);
+
+    DateTime dataTeste = _DateUtils.addYears(inicioAcsAceBase, 25);
 
     while (true) {
-      int anoAtual = dataTeste.year;
-      double idadeMinimaAtual = _obterIdadeMinimaPorAno(anoAtual, genero);
+      final idadeMinimaAtual = _obterIdadeMinimaPorAno(dataTeste.year, genero);
 
-      double diasTrabalhados = dataTeste
-          .difference(inicioAcsAce)
-          .inDays
-          .toDouble();
-      double anosTrabalhados = diasTrabalhados / 365.25;
+      final diffTrabalho = _DateUtils.diffYmd(inicioAcsAceBase, dataTeste);
+      final anosTrabalhados = _DateUtils.toDecimalYears(
+        anchorDate: inicioAcsAceBase,
+        difference: diffTrabalho,
+      );
 
-      // Bloco de Bônus
-      double bonus = anosTrabalhados - 25.0;
+      var bonus = anosTrabalhados - 25.0;
       if (bonus > 5.0) bonus = 5.0;
       if (bonus < 0.0) bonus = 0.0;
 
-      double idadeMinimaReduzida = idadeMinimaAtual - bonus;
-      double idadeReal = dataTeste.difference(nascimento).inDays / 365.25;
+      final idadeMinimaReduzida = idadeMinimaAtual - bonus;
+      final diffIdade = _DateUtils.diffYmd(nascimentoBase, dataTeste);
+      final idadeReal = _DateUtils.toDecimalYears(
+        anchorDate: nascimentoBase,
+        difference: diffIdade,
+      );
 
-      // Verificação de Elegibilidade
       if (idadeReal >= idadeMinimaReduzida) {
-        String descricao = bonus > 0
+        final descricao = bonus > 0
             ? 'Regras 1 e 2: Idade mínima de $idadeMinimaAtual reduzida para ${idadeMinimaReduzida.toStringAsFixed(1)} pelo bônus de tempo de serviço excedente.'
             : 'Regra 1: Aposentadoria alcançada pela Idade Mínima Progressiva.';
 
         return _CandidatoAposentadoria(data: dataTeste, nomeRegra: descricao);
       }
 
-      dataTeste = dataTeste.add(
-        const Duration(days: 1),
-      ); // Avança a linha do tempo em 1 dia
+      dataTeste = dataTeste.add(const Duration(days: 1));
 
-      // Failsafe arquitetural para evitar loops infinitos caso os dados inseridos sejam absurdos
-      if (dataTeste.year > 2100)
+      if (dataTeste.year > 2100) {
         return _CandidatoAposentadoria(
           data: DateTime(2100),
           nomeRegra: 'Inatingível',
         );
+      }
     }
   }
 
-  // Simulação da Regra 3 (Sistema de Pontos Rígido)
   _CandidatoAposentadoria? _simularRegra3(
     DateTime nascimento,
     DateTime inicioAcsAce,
@@ -126,32 +125,40 @@ class CalcularElegibilidadePec14UseCase {
     int mesesOutros,
     Genero genero,
   ) {
-    double outrosAnos = anosOutros + (mesesOutros / 12.0);
+    final nascimentoBase = _DateUtils.dateOnly(nascimento);
+    final inicioAcsAceBase = _DateUtils.dateOnly(inicioAcsAce);
 
-    // Trava estrutural: A Regra 3 exige categoricamente 15 anos em outras funções.
+    final outrosAnos = anosOutros + (mesesOutros / 12.0);
+
     if (outrosAnos < 15.0) {
       return null;
     }
 
-    double idadeExigida = genero == Genero.feminino ? 60.0 : 63.0;
-    double pontosExigidos = genero == Genero.feminino ? 83.0 : 86.0;
+    final idadeExigida = genero == Genero.feminino ? 60 : 63;
+    final pontosExigidos = genero == Genero.feminino ? 83.0 : 86.0;
 
-    // Define o marco inicial como a data em que os requisitos fixos de tempo (10 anos de ACS) e idade são atingidos
-    DateTime data10AnosAcs = inicioAcsAce.add(const Duration(days: 10 * 365));
-    DateTime dataIdadeMinima = nascimento.add(
-      Duration(days: (idadeExigida * 365.25).toInt()),
-    );
+    final data10AnosAcs = _DateUtils.addYears(inicioAcsAceBase, 10);
+    final dataIdadeMinima = _DateUtils.addYears(nascimentoBase, idadeExigida);
 
-    DateTime dataTeste = data10AnosAcs.isAfter(dataIdadeMinima)
+    var dataTeste = data10AnosAcs.isAfter(dataIdadeMinima)
         ? data10AnosAcs
         : dataIdadeMinima;
 
     while (true) {
-      double idadeReal = dataTeste.difference(nascimento).inDays / 365.25;
-      double tempoAcsReal = dataTeste.difference(inicioAcsAce).inDays / 365.25;
-      double tempoTotal = tempoAcsReal + outrosAnos;
+      final diffIdade = _DateUtils.diffYmd(nascimentoBase, dataTeste);
+      final idadeReal = _DateUtils.toDecimalYears(
+        anchorDate: nascimentoBase,
+        difference: diffIdade,
+      );
 
-      double pontosAtuais = idadeReal + tempoTotal;
+      final diffTempoAcs = _DateUtils.diffYmd(inicioAcsAceBase, dataTeste);
+      final tempoAcsReal = _DateUtils.toDecimalYears(
+        anchorDate: inicioAcsAceBase,
+        difference: diffTempoAcs,
+      );
+
+      final tempoTotal = tempoAcsReal + outrosAnos;
+      final pontosAtuais = idadeReal + tempoTotal;
 
       if (pontosAtuais >= pontosExigidos) {
         return _CandidatoAposentadoria(
@@ -167,7 +174,85 @@ class CalcularElegibilidadePec14UseCase {
   }
 }
 
-// Classe de transferência de dados (DTO) interna
+class _DateUtils {
+  static DateTime dateOnly(DateTime value) =>
+      DateTime(value.year, value.month, value.day);
+
+  static DateTime addYears(DateTime date, int years) => addMonths(date, years * 12);
+
+  static DateTime addMonths(DateTime date, int monthsToAdd) {
+    final normalized = dateOnly(date);
+    final totalMonths = (normalized.year * 12) + (normalized.month - 1) + monthsToAdd;
+    final year = totalMonths ~/ 12;
+    final month = (totalMonths % 12) + 1;
+    final day = min(normalized.day, _daysInMonth(year, month));
+    return DateTime(year, month, day);
+  }
+
+  static _DateYmdDifference diffYmd(DateTime from, DateTime to) {
+    var inicio = dateOnly(from);
+    var fim = dateOnly(to);
+
+    if (fim.isBefore(inicio)) {
+      return const _DateYmdDifference.zero();
+    }
+
+    var anos = fim.year - inicio.year;
+    var cursor = addYears(inicio, anos);
+    if (cursor.isAfter(fim)) {
+      anos -= 1;
+      cursor = addYears(inicio, anos);
+    }
+
+    var meses = 0;
+    while (meses < 12) {
+      final proximo = addMonths(cursor, meses + 1);
+      if (proximo.isAfter(fim)) break;
+      meses += 1;
+    }
+
+    cursor = addMonths(cursor, meses);
+    final dias = fim.difference(cursor).inDays;
+
+    return _DateYmdDifference(anos: anos, meses: meses, dias: dias);
+  }
+
+  static double toDecimalYears({
+    required DateTime anchorDate,
+    required _DateYmdDifference difference,
+  }) {
+    final intermediate = addMonths(
+      addYears(dateOnly(anchorDate), difference.anos),
+      difference.meses,
+    );
+
+    final diasNoMesAtual = _daysInMonth(intermediate.year, intermediate.month);
+
+    return difference.anos +
+        (difference.meses / 12.0) +
+        (difference.dias / diasNoMesAtual / 12.0);
+  }
+
+  static int _daysInMonth(int year, int month) => DateTime(year, month + 1, 0).day;
+}
+
+class _DateYmdDifference {
+  final int anos;
+  final int meses;
+  final int dias;
+
+  const _DateYmdDifference({
+    required this.anos,
+    required this.meses,
+    required this.dias,
+  });
+
+  const _DateYmdDifference.zero()
+      : anos = 0,
+        meses = 0,
+        dias = 0;
+}
+
 class _CandidatoAposentadoria {
   final DateTime data;
   final String nomeRegra;
