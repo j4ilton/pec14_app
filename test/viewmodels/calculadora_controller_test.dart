@@ -109,6 +109,11 @@ class _CalcularElegibilidadeUseCaseSpy extends CalcularElegibilidadePec14UseCase
       anosFaltantes: 1,
       mesesFaltantes: 0,
       diasFaltantes: 0,
+      pontosCalculados: null,
+      pontosExigidos: null,
+      pontosIdade: null,
+      pontosAcs: null,
+      pontosOutros: null,
     );
   }
 }

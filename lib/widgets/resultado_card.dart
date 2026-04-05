@@ -15,6 +15,7 @@ class ResultadoCard extends StatelessWidget {
         resultado.anosFaltantes == 0 &&
         resultado.mesesFaltantes == 0 &&
         resultado.diasFaltantes == 0;
+    final pontos = resultado.pontosCalculados;
 
     final dataFormatada = DateFormat(
       'dd/MM/yyyy',
@@ -71,6 +72,16 @@ class ResultadoCard extends StatelessWidget {
               titulo: 'Regra Aplicada',
               valor: resultado.regraAplicada,
             ),
+
+            if (pontos != null) ...[
+              const SizedBox(height: 16),
+              _buildInfoRow(
+                context,
+                icone: Icons.calculate,
+                titulo: 'Total de Pontos',
+                valor: pontos.floor().toString(),
+              ),
+            ],
 
             if (!isElegivel) ...[
               const SizedBox(height: 16),

@@ -160,9 +160,9 @@ class _CalculadoraViewState extends State<CalculadoraView> {
                   ),
                   const SizedBox(height: 16),
 
-                  // Campo 3: Início ACS/ACE (Obrigatório - PEC 14)
+                  // Campo 3: Início ACS/ACE/AIS/AISAN (Obrigatório - PEC 14)
                   DatePickerFormField(
-                    label: 'Início do Exercício ACS/ACE',
+                    label: 'Início do Exercício ACS/ACE/AIS/AISAN',
                     hintText: '',
                     initialDate: _controller.dataInicioAcsAce,
                     onDateSelected: _controller.setDataInicioAcsAce,

@@ -8,6 +8,11 @@ class ResultadoAposentadoria {
   final int anosFaltantes;
   final int mesesFaltantes;
   final int diasFaltantes;
+  final double? pontosCalculados;
+  final double? pontosExigidos;
+  final double? pontosIdade;
+  final double? pontosAcs;
+  final double? pontosOutros;
 
   ResultadoAposentadoria({
     required this.dataElegibilidade,
@@ -15,6 +20,11 @@ class ResultadoAposentadoria {
     required this.anosFaltantes,
     required this.mesesFaltantes,
     required this.diasFaltantes,
+    this.pontosCalculados,
+    this.pontosExigidos,
+    this.pontosIdade,
+    this.pontosAcs,
+    this.pontosOutros,
   });
 }
 
@@ -54,18 +64,23 @@ class CalcularElegibilidadePec14UseCase {
       anosFaltantes: restante.anos,
       mesesFaltantes: restante.meses,
       diasFaltantes: restante.dias,
+      pontosCalculados: melhorOpcao.pontosCalculados,
+      pontosExigidos: melhorOpcao.pontosExigidos,
+      pontosIdade: melhorOpcao.pontosIdade,
+      pontosAcs: melhorOpcao.pontosAcs,
+      pontosOutros: melhorOpcao.pontosOutros,
     );
   }
 
-  double _obterIdadeMinimaPorAno(int ano, Genero genero) {
+  int _obterIdadeMinimaPorAno(int ano, Genero genero) {
     if (ano <= 2030) {
-      return genero == Genero.feminino ? 50.0 : 52.0;
+      return genero == Genero.feminino ? 50 : 52;
     } else if (ano <= 2035) {
-      return genero == Genero.feminino ? 52.0 : 54.0;
+      return genero == Genero.feminino ? 52 : 54;
     } else if (ano <= 2040) {
-      return genero == Genero.feminino ? 54.0 : 56.0;
+      return genero == Genero.feminino ? 54 : 56;
     } else {
-      return genero == Genero.feminino ? 57.0 : 60.0;
+      return genero == Genero.feminino ? 57 : 60;
     }
   }
 
@@ -82,11 +97,14 @@ class CalcularElegibilidadePec14UseCase {
     var dataNascimento = nascimentoBase;
 
     while (true) {
-      final dataTeste =
-          dataServico.isBefore(dataNascimento) ? dataServico : dataNascimento;
+      final dataTeste = dataServico.isBefore(dataNascimento)
+          ? dataServico
+          : dataNascimento;
 
-      final anosTrabalhados =
-          _DateUtils.diffYmd(inicioAcsAceBase, dataTeste).anos;
+      final anosTrabalhados = _DateUtils.diffYmd(
+        inicioAcsAceBase,
+        dataTeste,
+      ).anos;
       final anosIdade = _DateUtils.diffYmd(nascimentoBase, dataTeste).anos;
 
       var bonus = anosTrabalhados - 25;
@@ -98,7 +116,7 @@ class CalcularElegibilidadePec14UseCase {
 
       if (anosTrabalhados >= 25 && anosIdade >= idadeMinimaReduzida) {
         final descricao = bonus > 0
-            ? 'Regras 1 e 2: Idade mínima de $idadeMinimaAtual reduzida para ${idadeMinimaReduzida.toStringAsFixed(0)} pelo bônus de tempo de serviço excedente.'
+            ? 'Regras 1 e 2: Idade mínima de $idadeMinimaAtual reduzida para $idadeMinimaReduzida pelo bônus de tempo de serviço excedente.'
             : 'Regra 1: Aposentadoria alcançada pela Idade Mínima Progressiva.';
 
         return _CandidatoAposentadoria(data: dataTeste, nomeRegra: descricao);
@@ -133,7 +151,6 @@ class CalcularElegibilidadePec14UseCase {
     final inicioAcsAceBase = _DateUtils.dateOnly(inicioAcsAce);
 
     final outrosAnos = anosOutros + (mesesOutros / 12.0);
-
     if (outrosAnos < 15.0) {
       return null;
     }
@@ -141,34 +158,38 @@ class CalcularElegibilidadePec14UseCase {
     final idadeExigida = genero == Genero.feminino ? 60 : 63;
     final pontosExigidos = genero == Genero.feminino ? 83.0 : 86.0;
 
-    final data10AnosAcs = _DateUtils.addYears(inicioAcsAceBase, 10);
-    final dataIdadeMinima = _DateUtils.addYears(nascimentoBase, idadeExigida);
+    final dataBase = _DateUtils.addYears(inicioAcsAceBase, 10);
 
-    var dataTeste = data10AnosAcs.isAfter(dataIdadeMinima)
-        ? data10AnosAcs
-        : dataIdadeMinima;
+    final anchorDate = DateTime(2000, 1, 1);
+    final dataOutros = _DateUtils.addMonths(
+      _DateUtils.addYears(anchorDate, anosOutros),
+      mesesOutros,
+    );
+    final diasOutros = dataOutros.difference(anchorDate).inDays;
+
+    var dataTeste = dataBase;
 
     while (true) {
-      final diffIdade = _DateUtils.diffYmd(nascimentoBase, dataTeste);
-      final idadeReal = _DateUtils.toDecimalYears(
-        anchorDate: nascimentoBase,
-        difference: diffIdade,
-      );
+      final diasIdade = dataTeste.difference(nascimentoBase).inDays;
+      final diasAcs = dataTeste.difference(inicioAcsAceBase).inDays;
 
-      final diffTempoAcs = _DateUtils.diffYmd(inicioAcsAceBase, dataTeste);
-      final tempoAcsReal = _DateUtils.toDecimalYears(
-        anchorDate: inicioAcsAceBase,
-        difference: diffTempoAcs,
-      );
+      final pontosIdade = diasIdade / 365.25;
+      final pontosAcs = diasAcs / 365.25;
+      final pontosOutros = diasOutros / 365.25;
+      final pontosAtuais = pontosIdade + pontosAcs + pontosOutros;
+      final idadeMinimaOk =
+          _DateUtils.diffYmd(nascimentoBase, dataTeste).anos >= idadeExigida;
 
-      final tempoTotal = tempoAcsReal + outrosAnos;
-      final pontosAtuais = idadeReal + tempoTotal;
-
-      if (pontosAtuais >= pontosExigidos) {
+      if (idadeMinimaOk && pontosAtuais >= pontosExigidos) {
         return _CandidatoAposentadoria(
           data: dataTeste,
           nomeRegra:
               'Regra 3: Sistema de Pontos (Soma da Idade e Tempo de Contribuição atingiu a exigência).',
+          pontosCalculados: pontosAtuais,
+          pontosExigidos: pontosExigidos,
+          pontosIdade: pontosIdade,
+          pontosAcs: pontosAcs,
+          pontosOutros: pontosOutros,
         );
       }
 
@@ -182,11 +203,13 @@ class _DateUtils {
   static DateTime dateOnly(DateTime value) =>
       DateTime(value.year, value.month, value.day);
 
-  static DateTime addYears(DateTime date, int years) => addMonths(date, years * 12);
+  static DateTime addYears(DateTime date, int years) =>
+      addMonths(date, years * 12);
 
   static DateTime addMonths(DateTime date, int monthsToAdd) {
     final normalized = dateOnly(date);
-    final totalMonths = (normalized.year * 12) + (normalized.month - 1) + monthsToAdd;
+    final totalMonths =
+        (normalized.year * 12) + (normalized.month - 1) + monthsToAdd;
     final year = totalMonths ~/ 12;
     final month = (totalMonths % 12) + 1;
     final day = min(normalized.day, _daysInMonth(year, month));
@@ -237,7 +260,8 @@ class _DateUtils {
         (difference.dias / diasNoMesAtual / 12.0);
   }
 
-  static int _daysInMonth(int year, int month) => DateTime(year, month + 1, 0).day;
+  static int _daysInMonth(int year, int month) =>
+      DateTime(year, month + 1, 0).day;
 }
 
 class _DateYmdDifference {
@@ -251,15 +275,25 @@ class _DateYmdDifference {
     required this.dias,
   });
 
-  const _DateYmdDifference.zero()
-      : anos = 0,
-        meses = 0,
-        dias = 0;
+  const _DateYmdDifference.zero() : anos = 0, meses = 0, dias = 0;
 }
 
 class _CandidatoAposentadoria {
   final DateTime data;
   final String nomeRegra;
+  final double? pontosCalculados;
+  final double? pontosExigidos;
+  final double? pontosIdade;
+  final double? pontosAcs;
+  final double? pontosOutros;
 
-  _CandidatoAposentadoria({required this.data, required this.nomeRegra});
+  _CandidatoAposentadoria({
+    required this.data,
+    required this.nomeRegra,
+    this.pontosCalculados,
+    this.pontosExigidos,
+    this.pontosIdade,
+    this.pontosAcs,
+    this.pontosOutros,
+  });
 }
