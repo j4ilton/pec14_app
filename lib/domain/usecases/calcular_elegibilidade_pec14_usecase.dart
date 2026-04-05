@@ -77,37 +77,44 @@ class CalcularElegibilidadePec14UseCase {
     final nascimentoBase = _DateUtils.dateOnly(nascimento);
     final inicioAcsAceBase = _DateUtils.dateOnly(inicioAcsAce);
 
-    DateTime dataTeste = _DateUtils.addYears(inicioAcsAceBase, 25);
+    // Avaliação em datas exatas (aniversários), com anos completos.
+    var dataServico = _DateUtils.addYears(inicioAcsAceBase, 25);
+    var dataNascimento = _DateUtils.addYears(
+      nascimentoBase,
+      genero == Genero.feminino ? 50 : 52,
+    );
 
     while (true) {
+      final dataTeste =
+          dataServico.isBefore(dataNascimento) ? dataServico : dataNascimento;
+
+      final anosTrabalhados =
+          _DateUtils.diffYmd(inicioAcsAceBase, dataTeste).anos;
+      final anosIdade = _DateUtils.diffYmd(nascimentoBase, dataTeste).anos;
+
+      var bonus = anosTrabalhados - 25;
+      if (bonus > 5) bonus = 5;
+      if (bonus < 0) bonus = 0;
+
       final idadeMinimaAtual = _obterIdadeMinimaPorAno(dataTeste.year, genero);
-
-      final diffTrabalho = _DateUtils.diffYmd(inicioAcsAceBase, dataTeste);
-      final anosTrabalhados = _DateUtils.toDecimalYears(
-        anchorDate: inicioAcsAceBase,
-        difference: diffTrabalho,
-      );
-
-      var bonus = anosTrabalhados - 25.0;
-      if (bonus > 5.0) bonus = 5.0;
-      if (bonus < 0.0) bonus = 0.0;
-
       final idadeMinimaReduzida = idadeMinimaAtual - bonus;
-      final diffIdade = _DateUtils.diffYmd(nascimentoBase, dataTeste);
-      final idadeReal = _DateUtils.toDecimalYears(
-        anchorDate: nascimentoBase,
-        difference: diffIdade,
-      );
 
-      if (idadeReal >= idadeMinimaReduzida) {
+      if (anosTrabalhados >= 25 && anosIdade >= idadeMinimaReduzida) {
         final descricao = bonus > 0
-            ? 'Regras 1 e 2: Idade mínima de $idadeMinimaAtual reduzida para ${idadeMinimaReduzida.toStringAsFixed(1)} pelo bônus de tempo de serviço excedente.'
+            ? 'Regras 1 e 2: Idade mínima de $idadeMinimaAtual reduzida para ${idadeMinimaReduzida.toStringAsFixed(0)} pelo bônus de tempo de serviço excedente.'
             : 'Regra 1: Aposentadoria alcançada pela Idade Mínima Progressiva.';
 
         return _CandidatoAposentadoria(data: dataTeste, nomeRegra: descricao);
       }
 
-      dataTeste = dataTeste.add(const Duration(days: 1));
+      if (dataServico.isAtSameMomentAs(dataNascimento)) {
+        dataServico = _DateUtils.addYears(dataServico, 1);
+        dataNascimento = _DateUtils.addYears(dataNascimento, 1);
+      } else if (dataServico.isBefore(dataNascimento)) {
+        dataServico = _DateUtils.addYears(dataServico, 1);
+      } else {
+        dataNascimento = _DateUtils.addYears(dataNascimento, 1);
+      }
 
       if (dataTeste.year > 2100) {
         return _CandidatoAposentadoria(

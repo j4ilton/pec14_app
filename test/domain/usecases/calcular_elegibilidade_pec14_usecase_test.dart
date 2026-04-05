@@ -19,6 +19,32 @@ void main() {
       expect(resultado.dataElegibilidade, DateTime(2025, 1, 31));
     });
 
+    test('Regra 1/2 usa anos completos e aniversários (caso informado)', () {
+      final resultado = useCase(
+        dataNascimento: DateTime(1982, 1, 3),
+        dataInicioAcsAce: DateTime(2002, 7, 1),
+        anosOutroTempo: 0,
+        mesesOutroTempo: 0,
+        genero: Genero.feminino,
+        dataReferencia: DateTime(2026, 1, 1),
+      );
+
+      expect(resultado.dataElegibilidade, DateTime(2030, 1, 3));
+    });
+
+    test('Regra 1/2 elegível no aniversário de serviço quando idade já atende', () {
+      final resultado = useCase(
+        dataNascimento: DateTime(1960, 1, 1),
+        dataInicioAcsAce: DateTime(2000, 6, 1),
+        anosOutroTempo: 0,
+        mesesOutroTempo: 0,
+        genero: Genero.feminino,
+        dataReferencia: DateTime(2024, 1, 1),
+      );
+
+      expect(resultado.dataElegibilidade, DateTime(2025, 6, 1));
+    });
+
     test('Regra 3 usa aniversário exato da idade mínima em 29/02', () {
       final resultado = useCase(
         dataNascimento: DateTime(1964, 2, 29),
