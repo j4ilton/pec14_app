@@ -27,7 +27,8 @@ class _QuizViewState extends State<QuizView> {
       ],
       'resposta': 1,
       'explicacao':
-          'A atividade é definida como essencial ao sistema único de saúde e exclusiva de Estado. [cite: 106]',
+          'A atividade é definida como essencial ao sistema único de saúde e exclusiva de Estado.',
+      'fonte': 'cite: 106',
     },
     {
       'texto':
@@ -40,7 +41,8 @@ class _QuizViewState extends State<QuizView> {
       ],
       'resposta': 2,
       'explicacao':
-          'Os gestores devem admitir os agentes por meio de concurso público na sua forma específica de processo seletivo público, de provimento efetivo. [cite: 422]',
+          'Os gestores devem admitir os agentes por meio de concurso público na sua forma específica de processo seletivo público, de provimento efetivo.',
+      'fonte': 'cite: 422',
     },
     {
       'texto':
@@ -53,7 +55,8 @@ class _QuizViewState extends State<QuizView> {
       ],
       'resposta': 1,
       'explicacao':
-          'É vedada a contratação temporária ou terceirizada, salvo a hipótese de emergências em saúde pública na forma da lei. [cite: 110]',
+          'É vedada a contratação temporária ou terceirizada, salvo a hipótese de emergências em saúde pública na forma da lei.',
+      'fonte': 'cite: 110',
     },
     {
       'texto':
@@ -61,7 +64,8 @@ class _QuizViewState extends State<QuizView> {
       'opcoes': ['15 anos.', '20 anos.', '25 anos.', '30 anos.'],
       'resposta': 2,
       'explicacao':
-          'É exigida a comprovação de no mínimo 25 anos de tempo de contribuição e de efetivo exercício na respectiva atividade profissional. [cite: 121]',
+          'É exigida a comprovação de no mínimo 25 anos de tempo de contribuição e de efetivo exercício na respectiva atividade profissional.',
+      'fonte': 'cite: 121',
     },
     {
       'texto':
@@ -74,7 +78,8 @@ class _QuizViewState extends State<QuizView> {
       ],
       'resposta': 1,
       'explicacao':
-          'Os profissionais terão direito à aposentadoria especial e a pensão de forma integral e paritária. [cite: 436]',
+          'Os profissionais terão direito à aposentadoria especial e a pensão de forma integral e paritária.',
+      'fonte': 'cite: 436',
     },
     {
       'texto':
@@ -87,7 +92,8 @@ class _QuizViewState extends State<QuizView> {
       ],
       'resposta': 1,
       'explicacao':
-          'Os agentes terão direito, em razão dos riscos inerentes às funções desempenhadas, ao adicional de insalubridade. [cite: 112]',
+          'Os agentes terão direito, em razão dos riscos inerentes às funções desempenhadas, ao adicional de insalubridade.',
+      'fonte': 'cite: 112',
     },
     {
       'texto':
@@ -100,7 +106,8 @@ class _QuizViewState extends State<QuizView> {
       ],
       'resposta': 1,
       'explicacao':
-          'Compete à União prestar assistência financeira complementar para o cumprimento do referido piso salarial. [cite: 433]',
+          'Compete à União prestar assistência financeira complementar para o cumprimento do referido piso salarial.',
+      'fonte': 'cite: 433',
     },
     {
       'texto':
@@ -113,7 +120,8 @@ class _QuizViewState extends State<QuizView> {
       ],
       'resposta': 1,
       'explicacao':
-          'A lei federal deve dispor sobre a fixação do piso salarial profissional nacional como vencimento inicial da carreira. [cite: 429]',
+          'A lei federal deve dispor sobre a fixação do piso salarial profissional nacional como vencimento inicial da carreira.',
+      'fonte': 'cite: 429',
     },
     {
       'texto':
@@ -126,7 +134,8 @@ class _QuizViewState extends State<QuizView> {
       ],
       'resposta': 2,
       'explicacao':
-          'É vedada a inclusão da assistência financeira complementar repassada pela União em limites de despesas de pessoal de qualquer espécie. [cite: 434]',
+          'É vedada a inclusão da assistência financeira complementar repassada pela União em limites de despesas de pessoal de qualquer espécie.',
+      'fonte': 'cite: 434',
     },
     {
       'texto':
@@ -139,7 +148,8 @@ class _QuizViewState extends State<QuizView> {
       ],
       'resposta': 1,
       'explicacao':
-          'O gestor local ficará impedido de firmar convênio e aderir às novas estratégias de ações públicas que impliquem repasses de recursos da União. [cite: 455]',
+          'O gestor local ficará impedido de firmar convênio e aderir às novas estratégias de ações públicas que impliquem repasses de recursos da União.',
+      'fonte': 'cite: 455',
     },
     {
       'texto':
@@ -152,7 +162,8 @@ class _QuizViewState extends State<QuizView> {
       ],
       'resposta': 2,
       'explicacao':
-          'Deve-se considerar o período em que o agente estiver afastado em razão do desempenho de mandato classista da categoria. [cite: 125]',
+          'Deve-se considerar o período em que o agente estiver afastado em razão do desempenho de mandato classista da categoria.',
+      'fonte': 'cite: 125',
     },
     {
       'texto':
@@ -165,7 +176,8 @@ class _QuizViewState extends State<QuizView> {
       ],
       'resposta': 0,
       'explicacao':
-          'Conta-se o tempo laborado na condição de readaptado, desde que a readaptação tenha decorrido de acidente de trabalho ou doença ocupacional. [cite: 125]',
+          'Conta-se o tempo laborado na condição de readaptado, desde que a readaptação tenha decorrido de acidente de trabalho ou doença ocupacional.',
+      'fonte': 'cite: 125',
     },
     {
       'texto':
@@ -178,7 +190,8 @@ class _QuizViewState extends State<QuizView> {
       ],
       'resposta': 1,
       'explicacao':
-          'Até 31 de dezembro de 2030, a idade mínima é de 50 anos, se mulher, e 52 anos, se homem. [cite: 135]',
+          'Até 31 de dezembro de 2030, a idade mínima é de 50 anos, se mulher, e 52 anos, se homem.',
+      'fonte': 'cite: 135',
     },
     {
       'texto':
@@ -191,7 +204,8 @@ class _QuizViewState extends State<QuizView> {
       ],
       'resposta': 1,
       'explicacao':
-          'A partir de 1º de janeiro de 2041, a idade exigida será de 57 anos para mulher e 60 anos para homem. [cite: 141]',
+          'A partir de 1º de janeiro de 2041, a idade exigida será de 57 anos para mulher e 60 anos para homem.',
+      'fonte': 'cite: 141',
     },
     {
       'texto':
@@ -204,7 +218,8 @@ class _QuizViewState extends State<QuizView> {
       ],
       'resposta': 1,
       'explicacao':
-          'As idades mínimas serão reduzidas em 1 ano para cada ano que exceder os 25, observado o limite máximo de 5 anos de redução. [cite: 144]',
+          'As idades mínimas serão reduzidas em 1 ano para cada ano que exceder os 25, observado o limite máximo de 5 anos de redução.',
+      'fonte': 'cite: 144',
     },
     {
       'texto':
@@ -217,7 +232,8 @@ class _QuizViewState extends State<QuizView> {
       ],
       'resposta': 1,
       'explicacao':
-          'O somatório deve ser equivalente a 83 pontos, se mulher, e a 86 pontos, se homem. [cite: 25]',
+          'O somatório deve ser equivalente a 83 pontos, se mulher, e a 86 pontos, se homem.',
+      'fonte': 'cite: 25',
     },
     {
       'texto':
@@ -225,7 +241,8 @@ class _QuizViewState extends State<QuizView> {
       'opcoes': ['5 anos.', '10 anos.', '15 anos.', '20 anos.'],
       'resposta': 1,
       'explicacao':
-          'Para a regra de pontos, exige-se cumulativamente 10 anos de efetivo exercício na respectiva atividade profissional. [cite: 24]',
+          'Para a regra de pontos, exige-se cumulativamente 10 anos de efetivo exercício na respectiva atividade profissional.',
+      'fonte': 'cite: 24',
     },
     {
       'texto':
@@ -238,7 +255,8 @@ class _QuizViewState extends State<QuizView> {
       ],
       'resposta': 2,
       'explicacao':
-          'Terão direito à aposentadoria especial os que exercerem atividades de campo, nas unidades de saúde, bem como coordenação, supervisão ou representação dos profissionais. [cite: 436]',
+          'Terão direito à aposentadoria especial os que exercerem atividades de campo, nas unidades de saúde, bem como coordenação, supervisão ou representação dos profissionais.',
+      'fonte': 'cite: 436',
     },
     {
       'texto':
@@ -251,7 +269,8 @@ class _QuizViewState extends State<QuizView> {
       ],
       'resposta': 2,
       'explicacao':
-          'A proposta fixa a responsabilidade do gestor local do SUS pela regularidade do vínculo empregatício desses profissionais. [cite: 415]',
+          'A proposta fixa a responsabilidade do gestor local do SUS pela regularidade do vínculo empregatício desses profissionais.',
+      'fonte': 'cite: 415',
     },
     {
       'texto':
@@ -264,7 +283,8 @@ class _QuizViewState extends State<QuizView> {
       ],
       'resposta': 1,
       'explicacao':
-          'Compete à União promover a implantação da qualificação profissional na área de atuação como forma de desenvolvimento e valorização da carreira. [cite: 433]',
+          'Compete à União promover a implantação da qualificação profissional na área de atuação como forma de desenvolvimento e valorização da carreira.',
+      'fonte': 'cite: 433',
     },
   ];
 
