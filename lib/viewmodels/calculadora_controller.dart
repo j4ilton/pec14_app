@@ -4,6 +4,7 @@ import '../domain/enums/genero.dart';
 import '../domain/usecases/calcular_elegibilidade_pec14_usecase.dart';
 
 class CalculadoraController extends ChangeNotifier {
+  static const int _idadeMinimaInicioExercicio = 14;
   final CalcularElegibilidadePec14UseCase _calcularElegibilidadeUseCase;
 
   CalculadoraController({CalcularElegibilidadePec14UseCase? useCase})
@@ -59,19 +60,53 @@ class CalculadoraController extends ChangeNotifier {
   }
 
   void calcular() {
-    // Validação Rigorosa de Inputs (Evita o problema da imagem)
     if (_dataNascimento == null) {
-      _erroMensagem = 'A Data de Nascimento é obrigatória.';
+      _erroMensagem = 'Informe a data de nascimento.';
+      _resultado = null;
       notifyListeners();
       return;
     }
     if (_dataInicioAcsAce == null) {
-      _erroMensagem = 'A Data de Início ACS/ACE é obrigatória.';
+      _erroMensagem = 'Informe a data de início no ACS/ACE.';
+      _resultado = null;
       notifyListeners();
       return;
     }
     if (_genero == null) {
-      _erroMensagem = 'A seleção de Gênero é obrigatória.';
+      _erroMensagem = 'Selecione o gênero.';
+      _resultado = null;
+      notifyListeners();
+      return;
+    }
+
+    final dataNascimento = DateTime(
+      _dataNascimento!.year,
+      _dataNascimento!.month,
+      _dataNascimento!.day,
+    );
+    final dataInicioAcsAce = DateTime(
+      _dataInicioAcsAce!.year,
+      _dataInicioAcsAce!.month,
+      _dataInicioAcsAce!.day,
+    );
+
+    if (dataInicioAcsAce.isBefore(dataNascimento)) {
+      _erroMensagem =
+          'A data de início no ACS/ACE não pode ser anterior à data de nascimento.';
+      _resultado = null;
+      notifyListeners();
+      return;
+    }
+
+    final dataMinimaInicioExercicio = DateTime(
+      dataNascimento.year + _idadeMinimaInicioExercicio,
+      dataNascimento.month,
+      dataNascimento.day,
+    );
+    if (dataInicioAcsAce.isBefore(dataMinimaInicioExercicio)) {
+      _erroMensagem =
+          'A data de início no ACS/ACE exige idade mínima de $_idadeMinimaInicioExercicio anos.';
+      _resultado = null;
       notifyListeners();
       return;
     }
@@ -81,8 +116,8 @@ class CalculadoraController extends ChangeNotifier {
     try {
       // Chama o Use Case com todos os dados exigidos pela PEC 14/21
       _resultado = _calcularElegibilidadeUseCase(
-        dataNascimento: _dataNascimento!,
-        dataInicioAcsAce: _dataInicioAcsAce!,
+        dataNascimento: dataNascimento,
+        dataInicioAcsAce: dataInicioAcsAce,
         anosOutroTempo: _anosOutroTempo,
         mesesOutroTempo: _mesesOutroTempo,
         genero: _genero!,
