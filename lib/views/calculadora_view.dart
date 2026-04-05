@@ -15,17 +15,43 @@ class CalculadoraView extends StatefulWidget {
 
 class _CalculadoraViewState extends State<CalculadoraView> {
   late final CalculadoraController _controller;
+  String? _ultimaMensagemErroExibida;
 
   @override
   void initState() {
     super.initState();
     _controller = CalculadoraController();
+    _controller.addListener(_onControllerChanged);
   }
 
   @override
   void dispose() {
+    _controller.removeListener(_onControllerChanged);
     _controller.dispose();
     super.dispose();
+  }
+
+  void _onControllerChanged() {
+    final erroAtual = _controller.erroMensagem;
+
+    if (erroAtual == null || erroAtual.isEmpty) {
+      _ultimaMensagemErroExibida = null;
+      return;
+    }
+
+    if (erroAtual == _ultimaMensagemErroExibida || !mounted) return;
+
+    _ultimaMensagemErroExibida = erroAtual;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(erroAtual),
+        backgroundColor: Colors.red.shade800,
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
+
+    _controller.clearErroMensagem();
   }
 
   @override
@@ -50,18 +76,6 @@ class _CalculadoraViewState extends State<CalculadoraView> {
           child: AnimatedBuilder(
             animation: _controller,
             builder: (context, _) {
-              if (_controller.erroMensagem != null) {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(_controller.erroMensagem!),
-                      backgroundColor: Colors.red.shade800,
-                      behavior: SnackBarBehavior.floating,
-                    ),
-                  );
-                });
-              }
-
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
