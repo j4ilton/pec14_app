@@ -1,0 +1,278 @@
+[
+  {
+    "texto": "Segundo a PEC 14/2021, a atuação de Agentes Comunitários de Saúde e Agentes de Combate às Endemias é classificada como:",
+    "opcoes": [
+      "Atividade temporária de apoio administrativo.",
+      "Atividade essencial ao SUS e exclusiva de Estado.",
+      "Atividade terceirizada de apoio logístico.",
+      "Atividade de livre nomeação e exoneração."
+    ],
+    "resposta": 1,
+    "explicacao": "O texto constitucional define a atuação desses agentes como essencial ao SUS e exclusiva de Estado.",
+    "fonte": { "documento": "DOC-PEC14.pdf", "pagina": 2 }
+  },
+  {
+    "texto": "A contratação temporária ou terceirizada de ACS/ACE é:",
+    "opcoes": [
+      "Permitida em qualquer circunstância.",
+      "Vedada, salvo em emergências em saúde pública.",
+      "A regra geral de contratação.",
+      "Permitida apenas em municípios pequenos."
+    ],
+    "resposta": 1,
+    "explicacao": "A proposta veda a contratação temporária ou terceirizada, exceto em emergências em saúde pública.",
+    "fonte": { "documento": "DOC-PEC14.pdf", "pagina": 2 }
+  },
+  {
+    "texto": "Os agentes de que trata o art. 198 §4º submetem-se ao regime jurídico de:",
+    "opcoes": [
+      "Empregados públicos celetistas.",
+      "Servidores nomeados para cargo de provimento efetivo.",
+      "Contratos temporários renováveis.",
+      "Organizações sociais conveniadas."
+    ],
+    "resposta": 1,
+    "explicacao": "O texto estabelece o regime jurídico de servidores nomeados para cargo de provimento efetivo.",
+    "fonte": { "documento": "DOC-PEC14.pdf", "pagina": 2 }
+  },
+  {
+    "texto": "Além da aposentadoria com requisitos diferenciados, a proposta garante:",
+    "opcoes": [
+      "Adicional noturno.",
+      "Adicional de insalubridade.",
+      "Auxílio-moradia.",
+      "Gratificação por tempo de serviço."
+    ],
+    "resposta": 1,
+    "explicacao": "O texto assegura o adicional de insalubridade em razão dos riscos inerentes às funções.",
+    "fonte": { "documento": "DOC-PEC14.pdf", "pagina": 2 }
+  },
+  {
+    "texto": "Na aposentadoria diferenciada do art. 40 §5º-A (RPPS), a idade mínima é:",
+    "opcoes": [
+      "55 anos (mulher) e 58 anos (homem).",
+      "57 anos (mulher) e 60 anos (homem).",
+      "60 anos (mulher) e 65 anos (homem).",
+      "50 anos (mulher) e 52 anos (homem)."
+    ],
+    "resposta": 1,
+    "explicacao": "A proposta fixa a idade mínima de 57 anos para mulheres e 60 anos para homens.",
+    "fonte": { "documento": "DOC-PEC14.pdf", "pagina": 1 }
+  },
+  {
+    "texto": "Além da idade mínima, exige-se:",
+    "opcoes": [
+      "20 anos de contribuição e 5 de efetivo exercício.",
+      "25 anos de contribuição e efetivo exercício na atividade.",
+      "30 anos de contribuição em qualquer atividade.",
+      "15 anos de contribuição e 10 de efetivo exercício."
+    ],
+    "resposta": 1,
+    "explicacao": "A regra exige 25 anos de contribuição e de efetivo exercício na atividade profissional.",
+    "fonte": { "documento": "DOC-PEC14.pdf", "pagina": 1 }
+  },
+  {
+    "texto": "No RGPS (art. 201 §8º-A), a idade mínima prevista é:",
+    "opcoes": [
+      "55 anos (mulher) e 58 anos (homem).",
+      "57 anos (mulher) e 60 anos (homem).",
+      "60 anos (mulher) e 65 anos (homem).",
+      "50 anos (mulher) e 52 anos (homem)."
+    ],
+    "resposta": 1,
+    "explicacao": "O art. 201 §8º-A repete a idade mínima de 57/60 anos para ACS/ACE.",
+    "fonte": { "documento": "DOC-PEC14.pdf", "pagina": 3 }
+  },
+  {
+    "texto": "Para fins de cômputo de tempo de contribuição e efetivo exercício, o período de mandato classista:",
+    "opcoes": [
+      "Não conta para nenhum fim.",
+      "Conta apenas para contribuição, não para efetivo exercício.",
+      "Deve ser considerado no cômputo.",
+      "Conta somente se houver trabalho parcial."
+    ],
+    "resposta": 2,
+    "explicacao": "O texto manda considerar o período de mandato classista para contribuição e efetivo exercício.",
+    "fonte": { "documento": "DOC-PEC14.pdf", "pagina": 4 }
+  },
+  {
+    "texto": "O tempo como readaptado é contado quando:",
+    "opcoes": [
+      "A readaptação decorre de acidente de trabalho, doença profissional ou do trabalho.",
+      "A readaptação ocorre por escolha pessoal.",
+      "A readaptação dura menos de dois anos.",
+      "Qualquer readaptação é aceita."
+    ],
+    "resposta": 0,
+    "explicacao": "A contagem só ocorre se a readaptação resultar de acidente de trabalho ou doença ocupacional.",
+    "fonte": { "documento": "DOC-PEC14.pdf", "pagina": 4 }
+  },
+  {
+    "texto": "Até 31/12/2030, a idade mínima da regra progressiva é:",
+    "opcoes": [
+      "50 anos (mulher) e 52 anos (homem).",
+      "52 anos (mulher) e 54 anos (homem).",
+      "54 anos (mulher) e 56 anos (homem).",
+      "57 anos (mulher) e 60 anos (homem)."
+    ],
+    "resposta": 0,
+    "explicacao": "A proposta estabelece 50 anos para mulher e 52 para homem até 31/12/2030.",
+    "fonte": { "documento": "DOC-PEC14.pdf", "pagina": 4 }
+  },
+  {
+    "texto": "Até 31/12/2035, a idade mínima da regra progressiva é:",
+    "opcoes": [
+      "50 anos (mulher) e 52 anos (homem).",
+      "52 anos (mulher) e 54 anos (homem).",
+      "54 anos (mulher) e 56 anos (homem).",
+      "57 anos (mulher) e 60 anos (homem)."
+    ],
+    "resposta": 1,
+    "explicacao": "Para 2031-2035, a idade mínima passa a 52/54 anos.",
+    "fonte": { "documento": "DOC-PEC14.pdf", "pagina": 4 }
+  },
+  {
+    "texto": "Até 31/12/2040, a idade mínima da regra progressiva é:",
+    "opcoes": [
+      "50 anos (mulher) e 52 anos (homem).",
+      "52 anos (mulher) e 54 anos (homem).",
+      "54 anos (mulher) e 56 anos (homem).",
+      "57 anos (mulher) e 60 anos (homem)."
+    ],
+    "resposta": 2,
+    "explicacao": "Para 2036-2040, a idade mínima passa a 54/56 anos.",
+    "fonte": { "documento": "DOC-PEC14.pdf", "pagina": 4 }
+  },
+  {
+    "texto": "A partir de 01/01/2041, a idade mínima da regra progressiva é:",
+    "opcoes": [
+      "50 anos (mulher) e 52 anos (homem).",
+      "52 anos (mulher) e 54 anos (homem).",
+      "54 anos (mulher) e 56 anos (homem).",
+      "57 anos (mulher) e 60 anos (homem)."
+    ],
+    "resposta": 3,
+    "explicacao": "A idade mínima passa a 57 anos para mulher e 60 para homem a partir de 2041.",
+    "fonte": { "documento": "DOC-PEC14.pdf", "pagina": 4 }
+  },
+  {
+    "texto": "A redução das idades mínimas ocorre:",
+    "opcoes": [
+      "Sem limite, de acordo com o tempo total.",
+      "1 ano para cada ano excedente a 25, até o limite de 5 anos.",
+      "2 anos para cada 5 anos excedentes, sem limite.",
+      "Somente por decisão judicial."
+    ],
+    "resposta": 1,
+    "explicacao": "As idades mínimas reduzem 1 ano por ano excedente a 25, limitado a 5 anos.",
+    "fonte": { "documento": "DOC-PEC14.pdf", "pagina": 4 }
+  },
+  {
+    "texto": "Na regra de pontos, a pontuação exigida é:",
+    "opcoes": [
+      "80 pontos (mulher) e 85 pontos (homem).",
+      "83 pontos (mulher) e 86 pontos (homem).",
+      "85 pontos (mulher) e 90 pontos (homem).",
+      "90 pontos (mulher) e 100 pontos (homem)."
+    ],
+    "resposta": 1,
+    "explicacao": "O somatório de idade e contribuição deve atingir 83 pontos (mulher) e 86 (homem).",
+    "fonte": { "documento": "DOC-PEC14.pdf", "pagina": 6 }
+  },
+  {
+    "texto": "Na regra de pontos, a idade mínima é:",
+    "opcoes": [
+      "55 anos (mulher) e 58 anos (homem).",
+      "57 anos (mulher) e 60 anos (homem).",
+      "60 anos (mulher) e 63 anos (homem).",
+      "62 anos (mulher) e 65 anos (homem)."
+    ],
+    "resposta": 2,
+    "explicacao": "A regra de pontos prevê idade mínima de 60 anos (mulher) e 63 anos (homem).",
+    "fonte": { "documento": "DOC-PEC14.pdf", "pagina": 6 }
+  },
+  {
+    "texto": "Na regra de pontos, o tempo mínimo exigido é:",
+    "opcoes": [
+      "20 anos de contribuição e 15 de efetivo exercício.",
+      "15 anos de contribuição e 10 de efetivo exercício.",
+      "25 anos de contribuição e 25 de efetivo exercício.",
+      "10 anos de contribuição e 5 de efetivo exercício."
+    ],
+    "resposta": 1,
+    "explicacao": "Exigem-se 15 anos de contribuição e 10 anos de efetivo exercício.",
+    "fonte": { "documento": "DOC-PEC14.pdf", "pagina": 6 }
+  },
+  {
+    "texto": "Quanto aos proventos de aposentadoria concedidos nos termos do art. 3º, o texto determina:",
+    "opcoes": [
+      "Proventos proporcionais ao tempo de contribuição.",
+      "Integralidade e totalidade da remuneração do cargo efetivo.",
+      "Limitação ao teto do RGPS.",
+      "Percentual fixo de 70% da remuneração."
+    ],
+    "resposta": 1,
+    "explicacao": "Os proventos observam a integralidade e correspondem à totalidade da remuneração do cargo efetivo.",
+    "fonte": { "documento": "DOC-PEC14.pdf", "pagina": 5 }
+  },
+  {
+    "texto": "O reajuste dos proventos ocorre com base em:",
+    "opcoes": [
+      "Índice anual definido por lei ordinária.",
+      "Paridade: mesma proporção e data dos servidores em atividade.",
+      "Correção exclusiva pelo INPC.",
+      "Acréscimo fixo a cada dois anos."
+    ],
+    "resposta": 1,
+    "explicacao": "Os proventos são reajustados com base em paridade, na mesma proporção e data dos ativos.",
+    "fonte": { "documento": "DOC-PEC14.pdf", "pagina": 5 }
+  },
+  {
+    "texto": "A União prestará assistência financeira complementar para:",
+    "opcoes": [
+      "Pagar integralmente os salários dos agentes.",
+      "Compensar aumento de despesas com aposentadorias dos regimes próprios.",
+      "Custear exclusivamente benefícios do RGPS.",
+      "Financiar cursos de formação continuada."
+    ],
+    "resposta": 1,
+    "explicacao": "A assistência financeira complementar visa compensar o aumento de despesas dos regimes próprios.",
+    "fonte": { "documento": "DOC-PEC14.pdf", "pagina": 11 }
+  },
+  {
+    "texto": "Para admissão dos agentes com vínculo temporário/precário na data de promulgação, é requisito:",
+    "opcoes": [
+      "Curso superior completo na área da saúde.",
+      "Participação em processo seletivo público de provas ou provas e títulos.",
+      "Indicação do gestor local sem seleção.",
+      "Concurso público de âmbito nacional."
+    ],
+    "resposta": 1,
+    "explicacao": "A admissão exige participação em processo seletivo público de provas ou de provas e títulos.",
+    "fonte": { "documento": "DOC-PEC14.pdf", "pagina": 12 }
+  },
+  {
+    "texto": "O prazo para efetivação do disposto no art. 12 é:",
+    "opcoes": [
+      "31/12/2026.",
+      "31/12/2027.",
+      "31/12/2028.",
+      "31/12/2030."
+    ],
+    "resposta": 2,
+    "explicacao": "Os entes federativos devem efetivar o art. 12 até 31/12/2028.",
+    "fonte": { "documento": "DOC-PEC14.pdf", "pagina": 12 }
+  },
+  {
+    "texto": "As regras constitucionais da PEC estendem-se também a:",
+    "opcoes": [
+      "Agentes comunitários de saúde privados.",
+      "Agentes indígenas de saneamento e agentes indígenas de saúde.",
+      "Servidores administrativos das unidades básicas.",
+      "Profissionais de enfermagem hospitalar."
+    ],
+    "resposta": 1,
+    "explicacao": "O art. 13 estende as regras aos agentes indígenas de saneamento e de saúde.",
+    "fonte": { "documento": "DOC-PEC14.pdf", "pagina": 12 }
+  }
+]

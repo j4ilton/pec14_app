@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'design_system/app_theme.dart';
 import 'views/home_view.dart';
 import 'views/quiz_view.dart';
 import 'views/calculadora_view.dart';
@@ -14,7 +15,7 @@ class Pec14App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'App PEC 14/21',
+      title: 'App PEC 14',
       locale: const Locale('pt', 'BR'),
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
@@ -22,14 +23,7 @@ class Pec14App extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const [Locale('pt', 'BR')],
-      theme: ThemeData(
-        primaryColor: Colors.green[700],
-        colorScheme: ColorScheme.fromSwatch().copyWith(
-          primary: Colors.green[700],
-          secondary: Colors.orange[600],
-        ),
-        scaffoldBackgroundColor: Colors.grey[100],
-      ),
+      theme: AppTheme.light(),
       initialRoute: '/',
       routes: {
         '/': (context) => const HomeView(),
