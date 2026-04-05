@@ -6,7 +6,7 @@ import '../domain/usecases/calcular_elegibilidade_pec14_usecase.dart';
 class ResultadoCard extends StatelessWidget {
   final ResultadoAposentadoria resultado;
 
-  const ResultadoCard({Key? key, required this.resultado}) : super(key: key);
+  const ResultadoCard({super.key, required this.resultado});
 
   @override
   Widget build(BuildContext context) {

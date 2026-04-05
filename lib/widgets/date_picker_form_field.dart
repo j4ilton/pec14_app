@@ -9,12 +9,12 @@ class DatePickerFormField extends StatelessWidget {
   final ValueChanged<DateTime> onDateSelected;
 
   const DatePickerFormField({
-    Key? key,
+    super.key,
     required this.label,
     required this.hintText,
     this.initialDate,
     required this.onDateSelected,
-  }) : super(key: key);
+  });
 
   Future<void> _selecionarData(BuildContext context) async {
     final hoje = DateTime.now();

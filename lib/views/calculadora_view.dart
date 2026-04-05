@@ -7,7 +7,7 @@ import '../widgets/date_picker_form_field.dart';
 import '../widgets/resultado_card.dart';
 
 class CalculadoraView extends StatefulWidget {
-  const CalculadoraView({Key? key}) : super(key: key);
+  const CalculadoraView({super.key});
 
   @override
   State<CalculadoraView> createState() => _CalculadoraViewState();
