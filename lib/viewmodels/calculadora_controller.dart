@@ -140,6 +140,12 @@ class CalculadoraController extends ChangeNotifier {
     notifyListeners();
   }
 
+  void clearErroMensagem() {
+    if (_erroMensagem == null) return;
+    _erroMensagem = null;
+    notifyListeners();
+  }
+
   void _limparResultado() {
     _resultado = null;
     _erroMensagem = null;
