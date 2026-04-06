@@ -4,6 +4,16 @@ Aplicativo Flutter voltado para informar e apoiar a simulação de elegibilidade
 
 Versão atual: `2.2.0+15`
 
+## Última release
+
+**v2.2.0** (publicada em 2026-04-06)
+
+- Release: https://github.com/j4iltondev/pec14_app/releases/tag/v2.2.0
+- Download:
+  - Android (APK): https://github.com/j4iltondev/pec14_app/releases/download/v2.2.0/AppPEC14_v2.2.0_build15.apk
+  - Windows (ZIP): https://github.com/j4iltondev/pec14_app/releases/download/v2.2.0/AppPEC14_v2.2.0_build15_windows.zip
+  - Web (ZIP): https://github.com/j4iltondev/pec14_app/releases/download/v2.2.0/AppPEC14_v2.2.0_build15_web.zip
+
 ## Objetivo do Projeto
 
 O App PEC 14 foi criado para reunir, em uma interface simples e acessível, recursos informativos sobre direitos previdenciários relacionados à PEC 14. O projeto busca ajudar profissionais e entidades a:
