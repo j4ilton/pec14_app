@@ -55,7 +55,7 @@ class HomeView extends StatelessWidget {
                 ),
               ),
               SizedBox(height: context.rspSpacing(28)),
-              Text(
+              /*Text(
                 'Ações principais',
                 style: TextStyle(
                   fontSize: context.rsp(16),
@@ -63,7 +63,7 @@ class HomeView extends StatelessWidget {
                   color: Colors.blueGrey.shade800,
                 ),
               ),
-              SizedBox(height: context.rspSpacing(12)),
+              SizedBox(height: context.rspSpacing(12)),*/
               _ActionTile(
                 title: 'Calculadora de Aposentadoria',
                 subtitle: 'Simule datas e regras aplicáveis.',
