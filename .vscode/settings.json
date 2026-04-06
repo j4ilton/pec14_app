@@ -9,5 +9,13 @@
     },
     "http.trustedDomains": [
         "https://static.ampcode.com"
+    ],
+    "cSpell.language": "en,pt,pt-BR",
+    "cSpell.words": [
+        "AISAN",
+        "pubspec",
+        "usecase",
+        "usecases",
+        "viewmodels"
     ]
 }

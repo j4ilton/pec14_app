@@ -25,8 +25,6 @@ void main() {
         '${appName}_v$versionString.apk',
     'build/app/outputs/bundle/release/app-release.aab':
         '${appName}_v$versionString.aab',
-    'build/windows/x64/runner/Release/pec14_app.exe':
-        '${appName}_v$versionString.exe',
   };
 
   final outputDir = Directory('releases_finais');
@@ -57,6 +55,32 @@ void main() {
     print('✅ Sucesso: Web app copiado para a pasta releases_finais/');
   } else {
     print('⚠️  Aviso: build/web não encontrado, pulando...');
+  }
+
+  final winBuildDir = Directory('build/windows/x64/runner/Release');
+  final winOutputDir = Directory(
+    '${outputDir.path}/${appName}_v${versionString}_windows',
+  );
+
+  if (winBuildDir.existsSync()) {
+    // 1. Copia o diretório
+    _copyDirectory(winBuildDir, winOutputDir);
+    print('✅ Sucesso: Windows app copiado para ${winOutputDir.path}');
+
+    // 2. Tenta renomear o executável dentro do novo diretório
+    final exeOriginal = File('${winOutputDir.path}/pec14_app.exe');
+    final exeNovo = '${winOutputDir.path}/$appName.exe';
+
+    if (exeOriginal.existsSync()) {
+      exeOriginal.renameSync(exeNovo);
+      print('✅ Sucesso: Executável renomeado para $appName.exe');
+    } else {
+      print('⚠️  Aviso: Executável original não encontrado para renomear.');
+    }
+  } else {
+    print(
+      '⚠️  Aviso: Build Windows não encontrado em ${winBuildDir.path}, pulando...',
+    );
   }
 
   print('\n🎉 Processo finalizado!');

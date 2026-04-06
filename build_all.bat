@@ -11,7 +11,7 @@ call flutter build appbundle --release
 
 echo.
 echo 🪟 Construindo Windows (EXE)...
-call flutter build windows --release
+call 
 
 echo.
 echo 🌐 Construindo Web (Web App)...
