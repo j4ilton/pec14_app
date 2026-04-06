@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import '../utils/responsive.dart';
+
+import '../../../app/routes.dart';
+import '../../../utils/responsive.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -55,21 +57,13 @@ class HomeView extends StatelessWidget {
                 ),
               ),
               SizedBox(height: context.rspSpacing(28)),
-              /*Text(
-                'Ações principais',
-                style: TextStyle(
-                  fontSize: context.rsp(16),
-                  fontWeight: FontWeight.w700,
-                  color: Colors.blueGrey.shade800,
-                ),
-              ),
-              SizedBox(height: context.rspSpacing(12)),*/
               _ActionTile(
                 title: 'Calculadora de Aposentadoria',
                 subtitle: 'Simule datas e regras aplicáveis.',
                 icon: Icons.calculate,
                 color: Colors.blue.shade700,
-                onTap: () => Navigator.pushNamed(context, '/calculadora'),
+                onTap: () =>
+                    Navigator.pushNamed(context, AppRoutes.calculadora),
               ),
               SizedBox(height: context.rspSpacing(12)),
               _ActionTile(
@@ -77,7 +71,7 @@ class HomeView extends StatelessWidget {
                 subtitle: 'Teste seu conhecimento sobre a PEC 14.',
                 icon: Icons.menu_book,
                 color: Colors.green.shade700,
-                onTap: () => Navigator.pushNamed(context, '/quiz'),
+                onTap: () => Navigator.pushNamed(context, AppRoutes.quiz),
               ),
               SizedBox(height: context.rspSpacing(28)),
               Text(

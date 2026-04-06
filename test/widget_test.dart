@@ -8,7 +8,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:pec14_app/main.dart';
+import 'package:pec14_app/app/app.dart';
 
 void main() {
   testWidgets('App initialization test', (WidgetTester tester) async {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../design_system/app_theme.dart';
+import '../../../../design_system/app_theme.dart';
 
 class QuestionCard extends StatelessWidget {
   final String text;
@@ -14,9 +14,7 @@ class QuestionCard extends StatelessWidget {
         padding: EdgeInsets.all(context.dsSpacing(20)),
         child: Text(
           text,
-          style: theme.textTheme.titleMedium?.copyWith(
-            height: 1.35,
-          ),
+          style: theme.textTheme.titleMedium?.copyWith(height: 1.35),
         ),
       ),
     );

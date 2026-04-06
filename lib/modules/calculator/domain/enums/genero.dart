@@ -1,5 +1,3 @@
-// lib/domain/enums/genero.dart
-
 enum Genero {
   feminino,
   masculino;

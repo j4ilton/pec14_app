@@ -1,7 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pec14_app/domain/enums/genero.dart';
-import 'package:pec14_app/domain/usecases/calcular_elegibilidade_pec14_usecase.dart';
-import 'package:pec14_app/viewmodels/calculadora_controller.dart';
+import 'package:pec14_app/modules/calculator/calculator.dart';
 
 void main() {
   group('CalculadoraController - validações de entrada', () {
@@ -38,41 +36,47 @@ void main() {
       expect(controller.erroMensagem, isNull);
     });
 
-    test('retorna erro quando data de início ACS/ACE é anterior ao nascimento', () {
-      final useCaseSpy = _CalcularElegibilidadeUseCaseSpy();
-      final controller = CalculadoraController(useCase: useCaseSpy);
+    test(
+      'retorna erro quando data de início ACS/ACE é anterior ao nascimento',
+      () {
+        final useCaseSpy = _CalcularElegibilidadeUseCaseSpy();
+        final controller = CalculadoraController(useCase: useCaseSpy);
 
-      controller.setDataNascimento(DateTime(1990, 1, 10));
-      controller.setDataInicioAcsAce(DateTime(1989, 12, 31));
-      controller.setGenero(Genero.feminino);
+        controller.setDataNascimento(DateTime(1990, 1, 10));
+        controller.setDataInicioAcsAce(DateTime(1989, 12, 31));
+        controller.setGenero(Genero.feminino);
 
-      controller.calcular();
+        controller.calcular();
 
-      expect(
-        controller.erroMensagem,
-        'A data de início no ACS/ACE não pode ser anterior à data de nascimento.',
-      );
-      expect(controller.resultado, isNull);
-      expect(useCaseSpy.callCount, 0);
-    });
+        expect(
+          controller.erroMensagem,
+          'A data de início no ACS/ACE não pode ser anterior à data de nascimento.',
+        );
+        expect(controller.resultado, isNull);
+        expect(useCaseSpy.callCount, 0);
+      },
+    );
 
-    test('retorna erro quando início no ACS/ACE ocorre abaixo da idade mínima', () {
-      final useCaseSpy = _CalcularElegibilidadeUseCaseSpy();
-      final controller = CalculadoraController(useCase: useCaseSpy);
+    test(
+      'retorna erro quando início no ACS/ACE ocorre abaixo da idade mínima',
+      () {
+        final useCaseSpy = _CalcularElegibilidadeUseCaseSpy();
+        final controller = CalculadoraController(useCase: useCaseSpy);
 
-      controller.setDataNascimento(DateTime(2010, 5, 20));
-      controller.setDataInicioAcsAce(DateTime(2024, 5, 19));
-      controller.setGenero(Genero.masculino);
+        controller.setDataNascimento(DateTime(2010, 5, 20));
+        controller.setDataInicioAcsAce(DateTime(2024, 5, 19));
+        controller.setGenero(Genero.masculino);
 
-      controller.calcular();
+        controller.calcular();
 
-      expect(
-        controller.erroMensagem,
-        'A data de início no ACS/ACE exige idade mínima de 14 anos.',
-      );
-      expect(controller.resultado, isNull);
-      expect(useCaseSpy.callCount, 0);
-    });
+        expect(
+          controller.erroMensagem,
+          'A data de início no ACS/ACE exige idade mínima de 14 anos.',
+        );
+        expect(controller.resultado, isNull);
+        expect(useCaseSpy.callCount, 0);
+      },
+    );
 
     test('retorna erro padronizado quando gênero não é informado', () {
       final useCaseSpy = _CalcularElegibilidadeUseCaseSpy();
@@ -90,7 +94,8 @@ void main() {
   });
 }
 
-class _CalcularElegibilidadeUseCaseSpy extends CalcularElegibilidadePec14UseCase {
+class _CalcularElegibilidadeUseCaseSpy
+    extends CalcularElegibilidadePec14UseCase {
   int callCount = 0;
 
   @override

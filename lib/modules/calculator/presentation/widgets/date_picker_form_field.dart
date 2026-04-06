@@ -1,4 +1,3 @@
-// lib/widgets/date_picker_form_field.dart
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -18,25 +17,19 @@ class DatePickerFormField extends StatelessWidget {
 
   Future<void> _selecionarData(BuildContext context) async {
     final hoje = DateTime.now();
-
-    // Define a data inicial que o calendário vai focar ao abrir
     final dataFocoInicial = initialDate ?? hoje;
 
     final dataSelecionada = await showDatePicker(
       context: context,
       initialDate: dataFocoInicial,
-      firstDate: DateTime(1930), // Evita rolagens infinitas para o passado
-      lastDate:
-          hoje, // ACS/ACE não podem ter data de nascimento ou ingresso no futuro
+      firstDate: DateTime(1930),
+      lastDate: hoje,
       helpText: 'Selecione a $label',
       cancelText: 'CANCELAR',
       confirmText: 'CONFIRMAR',
       builder: (context, child) {
-        // Garante que o calendário herde as cores do Design System atual
         return Theme(
           data: Theme.of(context).copyWith(
-            // Usamos DatePickerThemeData para garantir a estilização correta
-            // e alinhada com as versões mais recentes do Flutter.
             datePickerTheme: DatePickerThemeData(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),

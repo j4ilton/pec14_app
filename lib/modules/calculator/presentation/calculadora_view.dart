@@ -1,10 +1,10 @@
-// lib/views/calculadora_view.dart
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import '../domain/enums/genero.dart';
-import '../viewmodels/calculadora_controller.dart';
-import '../widgets/date_picker_form_field.dart';
-import '../widgets/resultado_card.dart';
+import 'calculadora_controller.dart';
+import 'widgets/date_picker_form_field.dart';
+import 'widgets/resultado_card.dart';
 
 class CalculadoraView extends StatefulWidget {
   const CalculadoraView({super.key});
@@ -118,8 +118,6 @@ class _CalculadoraViewState extends State<CalculadoraView> {
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 24),
-
-                  // Campo 1: Gênero (Obrigatório)
                   Text(
                     'Gênero',
                     style: theme.textTheme.bodySmall?.copyWith(
@@ -128,8 +126,6 @@ class _CalculadoraViewState extends State<CalculadoraView> {
                   ),
                   const SizedBox(height: 8),
                   SegmentedButton<Genero>(
-                    // DECISÃO TÉCNICA: Permitir seleção vazia inicial para forçar
-                    // a escolha ativa do usuário, evitando cálculos incorretos por desatenção.
                     emptySelectionAllowed: true,
                     segments: Genero.values
                         .map(
@@ -150,8 +146,6 @@ class _CalculadoraViewState extends State<CalculadoraView> {
                     ),
                   ),
                   const SizedBox(height: 16),
-
-                  // Campo 2: Data de Nascimento (Obrigatório)
                   DatePickerFormField(
                     label: 'Data de Nascimento',
                     hintText: '',
@@ -159,8 +153,6 @@ class _CalculadoraViewState extends State<CalculadoraView> {
                     onDateSelected: _controller.setDataNascimento,
                   ),
                   const SizedBox(height: 16),
-
-                  // Campo 3: Início ACS/ACE/AIS/AISAN (Obrigatório - PEC 14)
                   DatePickerFormField(
                     label: 'Início do Exercício ACS/ACE/AIS/AISAN',
                     hintText: '',
@@ -168,8 +160,6 @@ class _CalculadoraViewState extends State<CalculadoraView> {
                     onDateSelected: _controller.setDataInicioAcsAce,
                   ),
                   const SizedBox(height: 24),
-
-                  // Campo 4: Outros Tempos (Obrigatório para Pontos)
                   Text(
                     'Tempo de Contribuição em OUTRAS profissões',
                     style: theme.textTheme.bodySmall?.copyWith(
@@ -216,10 +206,7 @@ class _CalculadoraViewState extends State<CalculadoraView> {
                       ),
                     ],
                   ),
-
                   const SizedBox(height: 32),
-
-                  // Botão de Cálculo
                   ElevatedButton.icon(
                     onPressed: _controller.calcular,
                     icon: const Icon(Icons.calculate),
@@ -234,10 +221,7 @@ class _CalculadoraViewState extends State<CalculadoraView> {
                       ),
                     ),
                   ),
-
                   const SizedBox(height: 32),
-
-                  // Exibição Condicional do Resultado
                   if (_controller.hasResultado)
                     ResultadoCard(resultado: _controller.resultado!),
                 ],

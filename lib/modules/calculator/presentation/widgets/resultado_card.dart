@@ -1,7 +1,7 @@
-// lib/widgets/resultado_card.dart
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../domain/usecases/calcular_elegibilidade_pec14_usecase.dart';
+
+import '../../domain/entities/resultado_aposentadoria.dart';
 
 class ResultadoCard extends StatelessWidget {
   final ResultadoAposentadoria resultado;
@@ -56,7 +56,6 @@ class ResultadoCard extends StatelessWidget {
               ],
             ),
             const Divider(height: 32, thickness: 1),
-
             _buildInfoRow(
               context,
               icone: Icons.event_available,
@@ -65,14 +64,12 @@ class ResultadoCard extends StatelessWidget {
               destaque: true,
             ),
             const SizedBox(height: 16),
-
             _buildInfoRow(
               context,
               icone: Icons.gavel,
               titulo: 'Regra Aplicada',
               valor: resultado.regraAplicada,
             ),
-
             if (pontos != null) ...[
               const SizedBox(height: 16),
               _buildInfoRow(
@@ -82,7 +79,6 @@ class ResultadoCard extends StatelessWidget {
                 valor: pontos.floor().toString(),
               ),
             ],
-
             if (!isElegivel) ...[
               const SizedBox(height: 16),
               _buildInfoRow(
@@ -90,12 +86,9 @@ class ResultadoCard extends StatelessWidget {
                 icone: Icons.timer,
                 titulo: 'Tempo Restante',
                 valor:
-                    '${resultado.anosFaltantes} anos, '
-                    '${resultado.mesesFaltantes} meses e '
-                    '${resultado.diasFaltantes} dias.',
+                    '${resultado.anosFaltantes} anos, ${resultado.mesesFaltantes} meses e ${resultado.diasFaltantes} dias.',
               ),
             ],
-
             if (isElegivel) ...[
               const SizedBox(height: 24),
               Container(

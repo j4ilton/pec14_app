@@ -1,6 +1,7 @@
-// lib/viewmodels/calculadora_controller.dart
 import 'package:flutter/material.dart';
+
 import '../domain/enums/genero.dart';
+import '../domain/entities/resultado_aposentadoria.dart';
 import '../domain/usecases/calcular_elegibilidade_pec14_usecase.dart';
 
 class CalculadoraController extends ChangeNotifier {
@@ -11,18 +12,15 @@ class CalculadoraController extends ChangeNotifier {
     : _calcularElegibilidadeUseCase =
           useCase ?? CalcularElegibilidadePec14UseCase();
 
-  // Inputs da Tela
   DateTime? _dataNascimento;
   DateTime? _dataInicioAcsAce;
   Genero? _genero;
   int _anosOutroTempo = 0;
   int _mesesOutroTempo = 0;
 
-  // Estados de Saída
   ResultadoAposentadoria? _resultado;
   String? _erroMensagem;
 
-  // Getters
   DateTime? get dataNascimento => _dataNascimento;
   DateTime? get dataInicioAcsAce => _dataInicioAcsAce;
   Genero? get genero => _genero;
@@ -33,7 +31,6 @@ class CalculadoraController extends ChangeNotifier {
   String? get erroMensagem => _erroMensagem;
   bool get hasResultado => _resultado != null;
 
-  // Setters com notificação
   void setDataNascimento(DateTime data) {
     _dataNascimento = data;
     _limparResultado();
@@ -126,7 +123,6 @@ class CalculadoraController extends ChangeNotifier {
     _erroMensagem = null;
 
     try {
-      // Chama o Use Case com todos os dados exigidos pela PEC 14/21
       _resultado = _calcularElegibilidadeUseCase(
         dataNascimento: dataNascimento,
         dataInicioAcsAce: dataInicioAcsAce,
@@ -134,7 +130,7 @@ class CalculadoraController extends ChangeNotifier {
         mesesOutroTempo: _mesesOutroTempo,
         genero: _genero!,
       );
-    } catch (e) {
+    } catch (_) {
       _erroMensagem = 'Ocorreu um erro matemático ao realizar o cálculo.';
       _resultado = null;
     }

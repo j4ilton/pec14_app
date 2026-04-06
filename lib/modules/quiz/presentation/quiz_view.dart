@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import '../design_system/app_theme.dart';
-import '../quiz/presentation/quiz_controller.dart';
-import '../quiz/presentation/widgets/explanation_card.dart';
-import '../quiz/presentation/widgets/option_tile.dart';
-import '../quiz/presentation/widgets/question_card.dart';
-import '../quiz/presentation/widgets/quiz_header.dart';
-import '../quiz/presentation/widgets/result_panel.dart';
+
+import '../../../design_system/app_theme.dart';
+import 'quiz_controller.dart';
+import 'widgets/explanation_card.dart';
+import 'widgets/option_tile.dart';
+import 'widgets/question_card.dart';
+import 'widgets/quiz_header.dart';
+import 'widgets/result_panel.dart';
 
 class QuizView extends StatefulWidget {
   const QuizView({super.key});

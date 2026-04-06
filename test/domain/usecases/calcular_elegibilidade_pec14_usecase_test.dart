@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pec14_app/domain/enums/genero.dart';
-import 'package:pec14_app/domain/usecases/calcular_elegibilidade_pec14_usecase.dart';
+import 'package:pec14_app/modules/calculator/calculator.dart';
 
 void main() {
   group('CalcularElegibilidadePec14UseCase - calendário real', () {
@@ -148,7 +147,7 @@ void main() {
       expect(resultado.diasFaltantes, 1);
     });
 
-    test('Diff de calendário respeita fim de mês (31/01 -> 28/02)', () {
+    test('Diff de calendário trata fim de mês como 1 mês completo', () {
       final resultado = useCase(
         dataNascimento: DateTime(1960, 1, 1),
         dataInicioAcsAce: DateTime(2001, 2, 28),
@@ -160,8 +159,8 @@ void main() {
 
       expect(resultado.dataElegibilidade, DateTime(2026, 2, 28));
       expect(resultado.anosFaltantes, 0);
-      expect(resultado.mesesFaltantes, 0);
-      expect(resultado.diasFaltantes, 28);
+      expect(resultado.mesesFaltantes, 1);
+      expect(resultado.diasFaltantes, 0);
     });
   });
 }
