@@ -8,11 +8,11 @@ Versão atual: `2.2.0+15`
 
 **v2.2.0** (publicada em 2026-04-06)
 
-- Release: https://github.com/j4iltondev/pec14_app/releases/tag/v2.2.0
+- Release: [v2.2.0](https://github.com/j4iltondev/pec14_app/releases/tag/v2.2.0)
 - Download:
-  - Android (APK): https://github.com/j4iltondev/pec14_app/releases/download/v2.2.0/AppPEC14_v2.2.0_build15.apk
-  - Windows (ZIP): https://github.com/j4iltondev/pec14_app/releases/download/v2.2.0/AppPEC14_v2.2.0_build15_windows.zip
-  - Web (ZIP): https://github.com/j4iltondev/pec14_app/releases/download/v2.2.0/AppPEC14_v2.2.0_build15_web.zip
+  - Android (APK): [AppPEC14_v2.2.0_build15.apk](https://github.com/j4iltondev/pec14_app/releases/download/v2.2.0/AppPEC14_v2.2.0_build15.apk)
+  - Windows (ZIP): [AppPEC14_v2.2.0_build15_windows.zip](https://github.com/j4iltondev/pec14_app/releases/download/v2.2.0/AppPEC14_v2.2.0_build15_windows.zip)
+  - Web (ZIP): [AppPEC14_v2.2.0_build15_web.zip](https://github.com/j4iltondev/pec14_app/releases/download/v2.2.0/AppPEC14_v2.2.0_build15_web.zip)
 
 ## Objetivo do Projeto
 
